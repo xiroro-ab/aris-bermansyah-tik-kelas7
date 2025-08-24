@@ -60,14 +60,18 @@
         }
 
         /* Custom styles for quiz radio buttons */
+        .quiz-option label {
+            transition: all 0.2s ease-in-out;
+        }
+        .quiz-option label:hover {
+            transform: translateY(-4px);
+            border-color: #1dc7ab;
+        }
         .quiz-option input[type="radio"]:checked + label {
             background-color: #1a9c86;
             border-color: #1dc7ab;
             color: white;
             transform: scale(1.02);
-        }
-        .quiz-option label {
-            transition: all 0.2s ease-in-out;
         }
 
         /* Podium styles for leaderboard */
@@ -81,12 +85,16 @@
         .podium-2 { order: 1; min-height: 150px; background-image: linear-gradient(to top, #c0c0c0, #b0b0b0); }
         .podium-3 { order: 3; min-height: 120px; background-image: linear-gradient(to top, #cd7f32, #b8732e); }
 
-        /* --- PERBAIKAN VIDEO RESPONSIVE --- */
+        /* --- VIDEO & ELEMENT ANIMATIONS --- */
         .video-container {
             position: relative;
             width: 100%;
             overflow: hidden;
             padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            transition: transform 0.3s ease-in-out;
+        }
+        .video-container:hover {
+            transform: scale(1.03);
         }
         .video-container iframe {
             position: absolute;
@@ -96,17 +104,105 @@
             height: 100%;
             border: 0;
         }
+
+        @keyframes floatAnimation {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @keyframes pulseAnimation {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 20px rgba(29, 199, 171, 0.4);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 30px rgba(29, 199, 171, 0.6);
+            }
+        }
+
+        .animate-float {
+            animation: floatAnimation 4s ease-in-out infinite;
+        }
+
+        .animate-pulse {
+            animation: pulseAnimation 3s ease-in-out infinite;
+        }
+
+        /* --- GAME 1: SORTIR CEPAT STYLES --- */
+        .game-file {
+            touch-action: none;
+            cursor: grab;
+            transition: transform 0.2s ease;
+        }
+        .game-file.dragging, .email-part.dragging {
+            opacity: 0.5;
+            transform: scale(1.1);
+            cursor: grabbing;
+        }
+        .folder-dropzone {
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .folder-dropzone.drag-over, .email-slot.drag-over {
+            background-color: #1a9c86;
+            transform: scale(1.05);
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .shake-animation {
+            animation: shake 0.3s ease-in-out;
+        }
+
+        /* --- GAME 2: MISI PENCARIAN STYLES --- */
+        .keyword-option {
+            transition: all 0.3s ease;
+        }
+        .keyword-option:hover {
+            transform: translateY(-4px);
+            background-color: #2C5364;
+        }
+        .keyword-option.correct {
+            background-color: #1a9c86 !important;
+            color: white;
+            transform: scale(1.05);
+        }
+        .keyword-option.incorrect {
+            background-color: #991b1b !important;
+            color: white;
+            opacity: 0.7;
+        }
+
+        /* --- GAME 3: PENYUSUN SUREL STYLES --- */
+        .email-part {
+            cursor: grab;
+            transition: all 0.2s ease;
+        }
+        .email-slot {
+            transition: all 0.3s ease;
+            border-style: dashed;
+        }
+        .email-slot.filled {
+            border-style: solid;
+            border-color: #1a9c86;
+            background-color: #1a9c8620;
+        }
     </style>
 </head>
 <body class="overflow-x-hidden">
 
     <!-- Sidebar Navigation -->
-    <aside id="sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen bg-gray-800/80 backdrop-blur-sm shadow-lg transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
-        <div class="p-4 text-center">
-            <h2 class="text-2xl font-bold text-white">Informatika K7</h2>
-            <p class="text-sm text-gray-400">Materi TIK</p>
+    <aside id="sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen bg-gray-800/80 backdrop-blur-sm shadow-lg transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+        <div>
+            <div class="p-4 text-center">
+                 <img src="https://raw.githubusercontent.com/xiroro-ab/aris-bermansyah-komponen-sistem-komputer/refs/heads/main/IMG_7135.jpg" alt="Foto Profil" class="w-24 h-24 rounded-full mx-auto mb-2 border-4 border-teal-500 object-cover animate-pulse">
+                <h2 class="text-2xl font-bold text-white">Informatika K7</h2>
+                <p class="text-sm text-gray-400">Materi TIK</p>
+            </div>
         </div>
-        <nav class="mt-8 text-gray-300">
+        <nav class="flex-grow overflow-y-auto text-gray-300">
             <a href="#beranda" class="nav-link flex items-center px-6 py-3 hover:bg-teal-600/50 transition-colors duration-200">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
                 Beranda
@@ -153,28 +249,33 @@
                     <svg id="arrow-games" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-300" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
                 </button>
                 <div id="submenu-games" class="hidden pl-8 bg-gray-900/50">
-                    <a href="#game1" class="nav-link block px-4 py-2 text-sm hover:bg-teal-600/50 transition-colors duration-200">Tebak Istilah TIK</a>
-                    <a href="#game2" class="nav-link block px-4 py-2 text-sm hover:bg-teal-600/50 transition-colors duration-200">Jejak Digital</a>
-                    <a href="#game3" class="nav-link block px-4 py-2 text-sm hover:bg-teal-600/50 transition-colors duration-200">Sortir Perangkat</a>
+                    <a href="#game1" class="nav-link block px-4 py-2 text-sm hover:bg-teal-600/50 transition-colors duration-200">Sortir Cepat</a>
+                    <a href="#game2" class="nav-link block px-4 py-2 text-sm hover:bg-teal-600/50 transition-colors duration-200">Misi Pencarian</a>
+                    <a href="#game3" class="nav-link block px-4 py-2 text-sm hover:bg-teal-600/50 transition-colors duration-200">Penyusun Surel</a>
                 </div>
             </div>
         </nav>
+        <div class="p-4 text-center text-xs text-gray-500">
+            &copy; 2025 Aris Bermansyah, S.Kom
+        </div>
     </aside>
 
     <!-- Overlay for mobile sidebar -->
     <div id="overlay" class="fixed inset-0 bg-black/50 z-30 hidden md:hidden" onclick="toggleSidebar()"></div>
 
     <!-- Main Content -->
-    <main id="main-content" class="md:ml-64 transition-all duration-300 ease-in-out">
+    <main id="main-content" class="transition-all duration-300 ease-in-out">
         <div class="p-4 md:p-8">
             <!-- Header for mobile -->
-            <header class="md:hidden flex justify-between items-center mb-4">
-                <h1 id="page-title-mobile" class="text-2xl font-bold text-white">Beranda</h1>
-                <button id="menu-button" onclick="toggleSidebar()" class="text-white p-2 rounded-md bg-teal-600/50 hover:bg-teal-500/50">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
+            <header class="flex justify-between items-center mb-4">
+                <div id="page-title-container" class="flex items-center">
+                    <button id="menu-button" onclick="toggleSidebar()" class="text-white p-2 rounded-md bg-teal-600/50 hover:bg-teal-500/50 mr-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                    <h1 id="page-title" class="text-2xl font-bold text-white">Beranda</h1>
+                </div>
             </header>
 
             <!-- Page content will be injected here -->
@@ -182,18 +283,19 @@
                 <!-- Beranda Page -->
                 <div id="beranda" class="page-content">
                     <div class="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl shadow-2xl text-center">
+                        <img src="https://raw.githubusercontent.com/xiroro-ab/aris-bermansyah-komponen-sistem-komputer/refs/heads/main/IMG_7135.jpg" alt="Foto Aris Bermansyah" class="w-32 h-32 rounded-full mx-auto mb-6 border-4 border-teal-400 object-cover shadow-lg animate-pulse">
                         <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4">Selamat Datang di Portal Pembelajaran TIK</h1>
                         <p class="text-lg text-gray-300 mb-8 max-w-3xl mx-auto">Jelajahi materi, uji pemahamanmu dengan kuis interaktif, dan bersenang-senang dengan game edukatif seputar Teknologi Informasi dan Komunikasi.</p>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <a href="#materi1" class="nav-link bg-teal-600 hover:bg-teal-500 text-white font-bold py-6 px-4 rounded-xl btn-animated">
+                            <a href="#materi1" class="nav-link bg-teal-600 hover:bg-teal-500 text-white font-bold py-6 px-4 rounded-xl btn-animated animate-float">
                                 <h3 class="text-2xl mb-2">Mulai Belajar</h3>
                                 <p>Akses semua materi video.</p>
                             </a>
-                            <a href="#kuis-registrasi" class="nav-link bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-6 px-4 rounded-xl btn-animated">
+                            <a href="#kuis-registrasi" class="nav-link bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-6 px-4 rounded-xl btn-animated animate-float" style="animation-delay: 0.2s;">
                                 <h3 class="text-2xl mb-2">Uji Kemampuan</h3>
                                 <p>Kerjakan kuis dan raih skor tertinggi.</p>
                             </a>
-                            <a href="#game1" class="nav-link bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-6 px-4 rounded-xl btn-animated">
+                            <a href="#game1" class="nav-link bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-6 px-4 rounded-xl btn-animated animate-float" style="animation-delay: 0.4s;">
                                 <h3 class="text-2xl mb-2">Mainkan Game</h3>
                                 <p>Belajar sambil bermain.</p>
                             </a>
@@ -354,24 +456,112 @@
 
                 <!-- Games Pages -->
                 <div id="game1" class="page-content hidden">
-                    <div class="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl shadow-2xl text-center">
-                        <h1 class="text-3xl font-bold mb-4">Game: Tebak Istilah TIK</h1>
-                        <p class="text-gray-300 mb-6">Game ini sedang dalam pengembangan. Nantikan segera!</p>
-                        <div class="text-6xl animate-bounce">⚙️</div>
+                    <div class="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl shadow-2xl relative">
+                        <div class="text-center mb-6">
+                            <h1 class="text-3xl font-bold">Game: Sortir Cepat 📂</h1>
+                            <p class="text-gray-300 mt-2">Seret setiap file ke folder yang benar sebelum waktu habis!</p>
+                        </div>
+
+                        <div class="flex justify-around items-center bg-gray-900/50 p-4 rounded-lg mb-6 text-lg">
+                            <div>Waktu: <span id="game1-timer" class="font-bold text-teal-400">60</span></div>
+                            <div>Skor: <span id="game1-score" class="font-bold text-teal-400">0</span></div>
+                        </div>
+                        
+                        <div id="game1-board" class="min-h-[400px] flex flex-col md:flex-row gap-6">
+                            <!-- Files Area -->
+                            <div id="game1-files-container" class="w-full md:w-1/2 bg-gray-900/50 p-4 rounded-lg min-h-[200px] flex flex-wrap gap-4 justify-center items-start content-start">
+                                <!-- Files will be generated here -->
+                            </div>
+                            <!-- Folders Area -->
+                            <div class="w-full md:w-1/2 grid grid-cols-1 gap-4">
+                                <div id="folder-gambar" data-type="gambar" class="folder-dropzone bg-cyan-800/50 p-6 rounded-lg flex flex-col items-center justify-center text-center h-32">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                    <span>Folder Gambar</span>
+                                </div>
+                                <div id="folder-dokumen" data-type="dokumen" class="folder-dropzone bg-emerald-800/50 p-6 rounded-lg flex flex-col items-center justify-center text-center h-32">
+                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                                    <span>Folder Dokumen</span>
+                                </div>
+                                <div id="folder-musik" data-type="musik" class="folder-dropzone bg-indigo-800/50 p-6 rounded-lg flex flex-col items-center justify-center text-center h-32">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z" /></svg>
+                                    <span>Folder Musik</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Game Overlay -->
+                        <div id="game1-overlay" class="absolute inset-0 bg-gray-900/80 flex flex-col justify-center items-center rounded-2xl">
+                            <h2 id="game1-message" class="text-4xl font-bold mb-6">Sortir Cepat</h2>
+                            <button id="game1-start-btn" class="bg-teal-600 text-white py-3 px-8 rounded-md font-semibold text-xl btn-animated">Mulai!</button>
+                        </div>
                     </div>
                 </div>
                 <div id="game2" class="page-content hidden">
-                    <div class="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl shadow-2xl text-center">
-                        <h1 class="text-3xl font-bold mb-4">Game: Jejak Digital</h1>
-                        <p class="text-gray-300 mb-6">Game ini sedang dalam pengembangan. Nantikan segera!</p>
-                        <div class="text-6xl animate-pulse">👣</div>
+                    <div class="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl shadow-2xl relative">
+                         <div class="text-center mb-6">
+                            <h1 class="text-3xl font-bold">Game: Misi Pencarian 🔍</h1>
+                            <p class="text-gray-300 mt-2">Pilih kata kunci yang paling tepat untuk menjawab pertanyaan!</p>
+                        </div>
+
+                        <div class="flex justify-around items-center bg-gray-900/50 p-4 rounded-lg mb-6 text-lg">
+                            <div>Soal: <span id="game2-question-number" class="font-bold text-teal-400">1 / 5</span></div>
+                            <div>Skor: <span id="game2-score" class="font-bold text-teal-400">0</span></div>
+                        </div>
+
+                        <div id="game2-board" class="min-h-[400px]">
+                            <div class="bg-gray-900/50 p-6 rounded-lg mb-6">
+                                <p class="text-gray-400 text-sm mb-2">Pertanyaan:</p>
+                                <h3 id="game2-question" class="text-2xl font-semibold"></h3>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="game2-options">
+                                <!-- Keyword options will be generated here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Game Overlay -->
+                        <div id="game2-overlay" class="absolute inset-0 bg-gray-900/80 flex flex-col justify-center items-center rounded-2xl">
+                            <h2 id="game2-message" class="text-4xl font-bold mb-6 text-center">Misi Pencarian</h2>
+                            <button id="game2-start-btn" class="bg-teal-600 text-white py-3 px-8 rounded-md font-semibold text-xl btn-animated">Mulai!</button>
+                        </div>
                     </div>
                 </div>
                 <div id="game3" class="page-content hidden">
-                    <div class="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl shadow-2xl text-center">
-                        <h1 class="text-3xl font-bold mb-4">Game: Sortir Perangkat</h1>
-                        <p class="text-gray-300 mb-6">Game ini sedang dalam pengembangan. Nantikan segera!</p>
-                        <div class="text-6xl animate-spin">💿</div>
+                    <div class="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl shadow-2xl relative">
+                        <div class="text-center mb-6">
+                            <h1 class="text-3xl font-bold">Game: Penyusun Surel 📧</h1>
+                            <p class="text-gray-300 mt-2">Seret setiap bagian surel ke tempat yang benar!</p>
+                        </div>
+
+                        <div class="min-h-[500px] flex flex-col lg:flex-row gap-6">
+                            <!-- Email Parts -->
+                            <div id="game3-parts-container" class="w-full lg:w-1/3 bg-gray-900/50 p-4 rounded-lg flex lg:flex-col flex-wrap gap-4 justify-center">
+                                <!-- Parts will be generated here -->
+                            </div>
+                            <!-- Email Template -->
+                            <div class="w-full lg:w-2/3 bg-gray-900/30 p-4 rounded-lg space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="font-bold w-20">Kepada:</span>
+                                    <div id="slot-penerima" data-part="penerima" class="email-slot border-2 border-gray-600 w-full p-3 rounded-md min-h-[50px]"></div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="font-bold w-20">Subjek:</span>
+                                    <div id="slot-subjek" data-part="subjek" class="email-slot border-2 border-gray-600 w-full p-3 rounded-md min-h-[50px]"></div>
+                                </div>
+                                <div class="email-slot border-2 border-gray-600 w-full p-3 rounded-md min-h-[150px] mt-4" id="slot-isi" data-part="isi">
+                                    <!-- Body slot -->
+                                </div>
+                                <div class="flex items-center gap-2 pt-2">
+                                    <span class="font-bold w-20">Lampiran:</span>
+                                    <div id="slot-lampiran" data-part="lampiran" class="email-slot border-2 border-gray-600 w-full p-3 rounded-md min-h-[50px]"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                         <!-- Game Overlay -->
+                        <div id="game3-overlay" class="absolute inset-0 bg-gray-900/80 flex flex-col justify-center items-center rounded-2xl">
+                            <h2 id="game3-message" class="text-4xl font-bold mb-6 text-center">Penyusun Surel</h2>
+                            <button id="game3-start-btn" class="bg-teal-600 text-white py-3 px-8 rounded-md font-semibold text-xl btn-animated">Mulai!</button>
+                        </div>
                     </div>
                 </div>
 
@@ -458,8 +648,11 @@
                     const pageId = link.getAttribute('href').substring(1);
                     showPage(pageId);
                     updatePageTitle(pageId);
+                    // Close sidebar only on mobile after navigation
                     if (window.innerWidth < 768) {
-                        toggleSidebar(); // Close sidebar on mobile after navigation
+                        if (!document.getElementById('sidebar').classList.contains('-translate-x-full')) {
+                            toggleSidebar();
+                        }
                     }
                 });
             });
@@ -469,6 +662,13 @@
             
             // Setup leaderboard refresh
             document.getElementById('refresh-peringkat').addEventListener('click', fetchLeaderboard);
+
+            // Setup Game 1
+            document.getElementById('game1-start-btn').addEventListener('click', startGame1);
+            // Setup Game 2
+            document.getElementById('game2-start-btn').addEventListener('click', startGame2);
+            // Setup Game 3
+            document.getElementById('game3-start-btn').addEventListener('click', startGame3);
         });
         
         function showPage(pageId) {
@@ -501,12 +701,12 @@
                 'kuis-soal': 'Kuis: Pengerjaan',
                 'kuis-hasil': 'Kuis: Hasil',
                 'peringkat': 'Papan Peringkat',
-                'game1': 'Game: Tebak Istilah',
-                'game2': 'Game: Jejak Digital',
-                'game3': 'Game: Sortir Perangkat'
+                'game1': 'Game: Sortir Cepat',
+                'game2': 'Game: Misi Pencarian',
+                'game3': 'Game: Penyusun Surel'
             };
             const title = titleMap[pageId] || 'Beranda';
-            document.getElementById('page-title-mobile').textContent = title;
+            document.getElementById('page-title').textContent = title;
         }
 
         function toggleSidebar() {
@@ -515,15 +715,19 @@
             const mainContent = document.getElementById('main-content');
             
             sidebar.classList.toggle('-translate-x-full');
-            overlay.classList.toggle('hidden');
-            
-            if (sidebar.classList.contains('-translate-x-full')) {
-                mainContent.classList.remove('opacity-50');
+
+            // For mobile, toggle overlay. For desktop, shift content.
+            if (window.innerWidth < 768) {
+                overlay.classList.toggle('hidden');
             } else {
-                mainContent.classList.add('opacity-50');
+                if (sidebar.classList.contains('-translate-x-full')) {
+                    mainContent.classList.remove('md:ml-64');
+                } else {
+                    mainContent.classList.add('md:ml-64');
+                }
             }
         }
-
+        
         function toggleSubmenu(submenuId) {
             const submenu = document.getElementById(submenuId);
             const arrow = document.getElementById(`arrow-${submenuId.split('-')[1]}`);
@@ -737,6 +941,284 @@
                 loadingEl.textContent = 'Gagal memuat data peringkat. Pastikan ID Spreadsheet & pengaturan Deploy sudah benar.';
             });
         }
+
+        // --- GAME 1: SORTIR CEPAT LOGIC ---
+        let game1Timer;
+        let game1TimeLeft = 60;
+        let game1Score = 0;
+        const game1Files = [
+            { name: 'liburan.jpg', type: 'gambar' },
+            { name: 'tugas_ipa.docx', type: 'dokumen' },
+            { name: 'lagu_hits.mp3', type: 'musik' },
+            { name: 'keluarga.png', type: 'gambar' },
+            { name: 'laporan.pdf', type: 'dokumen' },
+            { name: 'rekaman.wav', type: 'musik' },
+            { name: 'pemandangan.jpeg', type: 'gambar' },
+            { name: 'surat_izin.doc', type: 'dokumen' },
+        ];
+
+        function startGame1() {
+            document.getElementById('game1-overlay').classList.add('hidden');
+            game1Score = 0;
+            game1TimeLeft = 60;
+            document.getElementById('game1-score').textContent = game1Score;
+            document.getElementById('game1-timer').textContent = game1TimeLeft;
+
+            populateFiles();
+            
+            if(game1Timer) clearInterval(game1Timer);
+            game1Timer = setInterval(() => {
+                game1TimeLeft--;
+                document.getElementById('game1-timer').textContent = game1TimeLeft;
+                if (game1TimeLeft <= 0) {
+                    endGame1('Waktu Habis!');
+                }
+            }, 1000);
+        }
+
+        function populateFiles() {
+            const filesContainer = document.getElementById('game1-files-container');
+            filesContainer.innerHTML = '';
+            const shuffledFiles = [...game1Files].sort(() => Math.random() - 0.5);
+
+            shuffledFiles.forEach(file => {
+                const fileEl = document.createElement('div');
+                fileEl.className = 'game-file bg-gray-700 p-3 rounded-md text-center w-32';
+                fileEl.draggable = true;
+                fileEl.id = `file-${file.name}`;
+                fileEl.dataset.type = file.type;
+                fileEl.innerHTML = `<span class="text-2xl">${getFileIcon(file.name)}</span><p class="text-sm truncate">${file.name}</p>`;
+                filesContainer.appendChild(fileEl);
+            });
+            addDragListeners();
+        }
+
+        function getFileIcon(fileName) {
+            if (fileName.endsWith('.jpg') || fileName.endsWith('.png') || fileName.endsWith('.jpeg')) return '🖼️';
+            if (fileName.endsWith('.docx') || fileName.endsWith('.pdf') || fileName.endsWith('.doc')) return '📄';
+            if (fileName.endsWith('.mp3') || fileName.endsWith('.wav')) return '🎵';
+            return '❓';
+        }
+
+        function addDragListeners() {
+            const files = document.querySelectorAll('.game-file');
+            const folders = document.querySelectorAll('.folder-dropzone');
+
+            files.forEach(file => {
+                file.addEventListener('dragstart', (e) => {
+                    e.target.classList.add('dragging');
+                    e.dataTransfer.setData('text/plain', e.target.id);
+                });
+                file.addEventListener('dragend', (e) => {
+                    e.target.classList.remove('dragging');
+                });
+            });
+
+            folders.forEach(folder => {
+                folder.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    folder.classList.add('drag-over');
+                });
+                folder.addEventListener('dragleave', () => {
+                    folder.classList.remove('drag-over');
+                });
+                folder.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    folder.classList.remove('drag-over');
+                    const fileId = e.dataTransfer.getData('text/plain');
+                    const fileEl = document.getElementById(fileId);
+                    
+                    if (fileEl && fileEl.dataset.type === folder.dataset.type) {
+                        fileEl.remove();
+                        game1Score += 10;
+                        document.getElementById('game1-score').textContent = game1Score;
+                        if (document.querySelectorAll('.game-file').length === 0) {
+                            endGame1('Selamat, Kamu Berhasil!');
+                        }
+                    } else {
+                        folder.classList.add('shake-animation');
+                        setTimeout(() => folder.classList.remove('shake-animation'), 300);
+                    }
+                });
+            });
+        }
+
+        function endGame1(message) {
+            clearInterval(game1Timer);
+            const overlay = document.getElementById('game1-overlay');
+            const msgEl = document.getElementById('game1-message');
+            const btnEl = document.getElementById('game1-start-btn');
+            
+            msgEl.innerHTML = `${message}<br><span class="text-2xl">Skor Akhir: ${game1Score}</span>`;
+            btnEl.textContent = 'Main Lagi';
+            overlay.classList.remove('hidden');
+        }
+
+        // --- GAME 2: MISI PENCARIAN LOGIC ---
+        let game2Score = 0;
+        let game2CurrentQuestionIndex = 0;
+        const game2Questions = [
+            { question: 'Apa nama ibu kota negara Indonesia?', options: ['Bandung', 'ibu kota Indonesia', 'Jakarta', 'kota di Indonesia'], answer: 'ibu kota Indonesia' },
+            { question: 'Siapa penemu bola lampu?', options: ['penemu lampu', 'Thomas', 'Thomas Alva Edison', 'siapa penemu bola lampu'], answer: 'siapa penemu bola lampu' },
+            { question: 'Di mana letak Candi Borobudur?', options: ['candi di Jawa', 'letak Candi Borobudur', 'Magelang', 'candi Buddha'], answer: 'letak Candi Borobudur' },
+            { question: 'Kapan hari kemerdekaan Indonesia?', options: ['hari kemerdekaan', '17 Agustus 1945', 'proklamasi Indonesia', 'kapan Indonesia merdeka'], answer: 'kapan Indonesia merdeka' },
+            { question: 'Apa fungsi dari CPU pada komputer?', options: ['fungsi CPU', 'otak komputer', 'Central Processing Unit', 'fungsi CPU komputer'], answer: 'fungsi CPU komputer' }
+        ];
+
+        function startGame2() {
+            document.getElementById('game2-overlay').classList.add('hidden');
+            game2Score = 0;
+            game2CurrentQuestionIndex = 0;
+            document.getElementById('game2-score').textContent = game2Score;
+            displayGame2Question();
+        }
+
+        function displayGame2Question() {
+            const questionData = game2Questions[game2CurrentQuestionIndex];
+            document.getElementById('game2-question-number').textContent = `${game2CurrentQuestionIndex + 1} / ${game2Questions.length}`;
+            document.getElementById('game2-question').textContent = questionData.question;
+            
+            const optionsContainer = document.getElementById('game2-options');
+            optionsContainer.innerHTML = '';
+            const shuffledOptions = [...questionData.options].sort(() => Math.random() - 0.5);
+
+            shuffledOptions.forEach(option => {
+                const optionEl = document.createElement('button');
+                optionEl.className = 'keyword-option bg-gray-700/50 p-4 rounded-lg text-lg';
+                optionEl.textContent = option;
+                optionEl.onclick = () => checkGame2Answer(option, questionData.answer, optionEl);
+                optionsContainer.appendChild(optionEl);
+            });
+        }
+
+        function checkGame2Answer(selected, correct, element) {
+            const options = document.querySelectorAll('.keyword-option');
+            options.forEach(opt => opt.disabled = true); // Disable all options
+
+            if (selected.includes(correct) || correct.includes(selected)) {
+                element.classList.add('correct');
+                game2Score += 20;
+                document.getElementById('game2-score').textContent = game2Score;
+            } else {
+                element.classList.add('incorrect');
+            }
+
+            setTimeout(() => {
+                game2CurrentQuestionIndex++;
+                if (game2CurrentQuestionIndex < game2Questions.length) {
+                    displayGame2Question();
+                } else {
+                    endGame2('Misi Selesai!');
+                }
+            }, 1500);
+        }
+
+        function endGame2(message) {
+            const overlay = document.getElementById('game2-overlay');
+            const msgEl = document.getElementById('game2-message');
+            const btnEl = document.getElementById('game2-start-btn');
+            
+            msgEl.innerHTML = `${message}<br><span class="text-2xl">Skor Akhir: ${game2Score}</span>`;
+            btnEl.textContent = 'Main Lagi';
+            overlay.classList.remove('hidden');
+        }
+
+        // --- GAME 3: PENYUSUN SUREL LOGIC ---
+        let game3CorrectParts = 0;
+        const game3Parts = [
+            { id: 'penerima', content: 'guru.informatika@sekolah.id', target: 'penerima' },
+            { id: 'subjek', content: 'Tugas Laporan TIK', target: 'subjek' },
+            { id: 'isi', content: 'Selamat pagi, Pak. Berikut saya lampirkan tugas laporan TIK. Terima kasih.', target: 'isi' },
+            { id: 'lampiran', content: 'laporan_aris.docx', target: 'lampiran' },
+        ];
+
+        function startGame3() {
+            document.getElementById('game3-overlay').classList.add('hidden');
+            game3CorrectParts = 0;
+            populateEmailParts();
+            addEmailDragListeners();
+        }
+
+        function populateEmailParts() {
+            const partsContainer = document.getElementById('game3-parts-container');
+            partsContainer.innerHTML = '';
+            // Clear filled slots
+            document.querySelectorAll('.email-slot').forEach(slot => {
+                slot.innerHTML = '';
+                slot.classList.remove('filled');
+            });
+
+            const shuffledParts = [...game3Parts].sort(() => Math.random() - 0.5);
+            shuffledParts.forEach(part => {
+                const partEl = document.createElement('div');
+                partEl.id = `part-${part.id}`;
+                partEl.dataset.target = part.target;
+                partEl.draggable = true;
+                partEl.className = 'email-part bg-gray-700 p-3 rounded-md text-center';
+                partEl.textContent = part.content;
+                partsContainer.appendChild(partEl);
+            });
+        }
+
+        function addEmailDragListeners() {
+            const parts = document.querySelectorAll('.email-part');
+            const slots = document.querySelectorAll('.email-slot');
+
+            parts.forEach(part => {
+                part.addEventListener('dragstart', e => {
+                    e.target.classList.add('dragging');
+                    e.dataTransfer.setData('text/plain', e.target.id);
+                });
+                part.addEventListener('dragend', e => {
+                    e.target.classList.remove('dragging');
+                });
+            });
+
+            slots.forEach(slot => {
+                slot.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    if (!slot.classList.contains('filled')) {
+                        slot.classList.add('drag-over');
+                    }
+                });
+                slot.addEventListener('dragleave', () => {
+                    slot.classList.remove('drag-over');
+                });
+                slot.addEventListener('drop', e => {
+                    e.preventDefault();
+                    slot.classList.remove('drag-over');
+                    if (slot.classList.contains('filled')) return;
+
+                    const partId = e.dataTransfer.getData('text/plain');
+                    const partEl = document.getElementById(partId);
+
+                    if (partEl && slot.dataset.part === partEl.dataset.target) {
+                        slot.appendChild(partEl);
+                        partEl.draggable = false;
+                        partEl.classList.remove('email-part');
+                        slot.classList.add('filled');
+                        game3CorrectParts++;
+                        if (game3CorrectParts === game3Parts.length) {
+                            endGame3('Surel Berhasil Disusun!');
+                        }
+                    } else {
+                        slot.classList.add('shake-animation');
+                        setTimeout(() => slot.classList.remove('shake-animation'), 300);
+                    }
+                });
+            });
+        }
+
+        function endGame3(message) {
+            const overlay = document.getElementById('game3-overlay');
+            const msgEl = document.getElementById('game3-message');
+            const btnEl = document.getElementById('game3-start-btn');
+            
+            msgEl.innerHTML = `${message}<br><span class="text-2xl">Kamu Hebat!</span>`;
+            btnEl.textContent = 'Main Lagi';
+            overlay.classList.remove('hidden');
+        }
+
     </script>
 </body>
 </html>
