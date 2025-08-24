@@ -3,139 +3,735 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Informatika Kelas 7 - Pembelajaran Interaktif</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Informatika Kelas 7 - Pembelajaran TIK</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS for animations, gradients, and theme -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0F2027, #203A43, #2C5364);
+            color: #E0E0E0;
+        }
+
+        /* Custom scrollbar for a better look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #2C5364;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1a9c86;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1dc7ab;
+        }
+
+        /* Animated button styles */
+        .btn-animated {
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 15px 0 rgba(29, 199, 171, 0.4);
+        }
+        .btn-animated:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px 0 rgba(29, 199, 171, 0.5);
+        }
+        .btn-animated:active {
+            transform: translateY(1px) scale(0.98);
+            box-shadow: 0 2px 10px 0 rgba(29, 199, 171, 0.3);
+        }
+
+        /* Smooth transition for page content */
+        .page-content {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Custom styles for quiz radio buttons */
+        .quiz-option input[type="radio"]:checked + label {
+            background-color: #1a9c86;
+            border-color: #1dc7ab;
+            color: white;
+            transform: scale(1.02);
+        }
+        .quiz-option label {
+            transition: all 0.2s ease-in-out;
+        }
+
+        /* Podium styles for leaderboard */
+        .podium-item {
+            transition: transform 0.3s ease;
+        }
+        .podium-item:hover {
+            transform: scale(1.1);
+        }
+        .podium-1 { order: 2; min-height: 200px; background-image: linear-gradient(to top, #ffd700, #f0c300); }
+        .podium-2 { order: 1; min-height: 150px; background-image: linear-gradient(to top, #c0c0c0, #b0b0b0); }
+        .podium-3 { order: 3; min-height: 120px; background-image: linear-gradient(to top, #cd7f32, #b8732e); }
+    </style>
 </head>
-<body>
-    <button class="sidebar-toggle" id="sidebarToggle">&#9776;</button>
-    <nav class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <h3>Informatika K7</h3>
+<body class="overflow-x-hidden">
+
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen bg-gray-800/80 backdrop-blur-sm shadow-lg transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
+        <div class="p-4 text-center">
+            <h2 class="text-2xl font-bold text-white">Informatika K7</h2>
+            <p class="text-sm text-gray-400">Materi TIK</p>
         </div>
-        <ul>
-            <li><a href="#beranda" class="nav-link active">Beranda</a></li>
-            <li>
-                <a href="#" class="has-submenu">Materi <span class="arrow">&#9662;</span></a>
-                <ul class="submenu">
-                    <li><a href="#materi-1" class="nav-link">1. Antarmuka & File</a></li>
-                    <li><a href="#materi-2" class="nav-link">2. Peramban & Office</a></li>
-                    <li><a href="#materi-3" class="nav-link">3. Komunikasi Surel</a></li>
-                </ul>
-            </li>
-            <li><a href="#kuis" class="nav-link">Kuis Interaktif</a></li>
-            <li><a href="#peringkat" class="nav-link">Papan Peringkat</a></li>
-            <li>
-                <a href="#" class="has-submenu">Games Edukatif <span class="arrow">&#9662;</span></a>
-                <ul class="submenu">
-                    <li><a href="#game-1" class="nav-link">Game 1: Cepat Ketik</a></li>
-                    <li><a href="#game-2" class="nav-link">Game 2: Pasang Perangkat</a></li>
-                    <li><a href="#game-3" class="nav-link">Game 3: Anti-Phishing</a></li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
-    <main class="content" id="mainContent">
-        <section id="beranda" class="page active">
-            <h1>Selamat Datang di Portal Pembelajaran Informatika!</h1>
-            <p>Jelajahi materi, uji pemahamanmu dengan kuis, dan bermain game edukatif untuk menjadi ahli Teknologi Informasi dan Komunikasi.</p>
-            <div class="card-container">
-                <div class="card" onclick="showPage('materi-1')">
-                    <h3>Materi Pelajaran</h3>
-                    <p>Pelajari semua konsep dasar TIK mulai dari antarmuka hingga aplikasi perkantoran.</p>
-                </div>
-                <div class="card" onclick="showPage('kuis')">
-                    <h3>Uji Kemampuan</h3>
-                    <p>Kerjakan kuis interaktif dengan batasan waktu untuk mengukur pemahaman Anda.</p>
-                </div>
-                <div class="card" onclick="showPage('peringkat')">
-                    <h3>Lihat Peringkat</h3>
-                    <p>Bersaing dengan teman-temanmu dan lihat siapa yang menjadi juara kelas.</p>
+        <nav class="mt-8 text-gray-300">
+            <a href="#beranda" class="nav-link flex items-center px-6 py-3 hover:bg-teal-600/50 transition-colors duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
+                Beranda
+            </a>
+            
+            <!-- Materi Submenu -->
+            <div>
+                <button onclick="toggleSubmenu('submenu-materi')" class="w-full flex justify-between items-center px-6 py-3 hover:bg-teal-600/50 transition-colors duration-200">
+                    <span class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor"><path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 16c1.255 0 2.443-.29 3.5-.804V4.804zM14.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 0114.5 16c1.255 0 2.443-.29 3.5-.804v-10A7.968 7.968 0 0014.5 4z" /></svg>
+                        Materi
+                    </span>
+                    <svg id="arrow-materi" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-300" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                </button>
+                <div id="submenu-materi" class="hidden pl-8 bg-gray-900/50">
+                    <a href="#materi1" class="nav-link block px-4 py-2 text-sm hover:bg-teal-600/50 transition-colors duration-200">Antarmuka & File</a>
+                    <a href="#materi2" class="nav-link block px-4 py-2 text-sm hover:bg-teal-600/50 transition-colors duration-200">Peramban & Perkantoran</a>
+                    <a href="#materi3" class="nav-link block px-4 py-2 text-sm hover:bg-teal-600/50 transition-colors duration-200">Komunikasi Surel</a>
                 </div>
             </div>
-        </section>
-        <section id="materi-1" class="page">
-            <h2>Materi 1: Antarmuka Pengguna & Manajemen File</h2>
-            <p>Di sini kita akan belajar tentang bagaimana kita berinteraksi dengan komputer dan cara mengelola data secara efisien.</p>
-            <h4>Slot Video Pembelajaran</h4>
-            <div class="embed-container">
-                <iframe src="https://www.youtube.com/embed/example" frameborder="0" allowfullscreen></iframe>
+
+            <!-- Kuis Submenu -->
+            <div>
+                <button onclick="toggleSubmenu('submenu-kuis')" class="w-full flex justify-between items-center px-6 py-3 hover:bg-teal-600/50 transition-colors duration-200">
+                    <span class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" /></svg>
+                        Kuis
+                    </span>
+                    <svg id="arrow-kuis" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-300" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                </button>
+                <div id="submenu-kuis" class="hidden pl-8 bg-gray-900/50">
+                    <a href="#kuis-registrasi" class="nav-link block px-4 py-2 text-sm hover:bg-teal-600/50 transition-colors duration-200">Mulai Kuis</a>
+                    <a href="#peringkat" class="nav-link block px-4 py-2 text-sm hover:bg-teal-600/50 transition-colors duration-200">Papan Peringkat</a>
+                </div>
             </div>
-        </section>
-        <section id="kuis" class="page">
-            <h2>Kuis Teknologi Informasi dan Komunikasi</h2>
-            <div id="quiz-registration">
-                <h3>Registrasi Sebelum Memulai</h3>
-                <form id="regForm">
-                    <input type="text" id="nama" placeholder="Nama Lengkap" required>
-                    <select id="kelas" required>
-                        <option value="">Pilih Kelas</option>
-                        <option value="7.1">Kelas 7.1</option>
-                        <option value="7.2">Kelas 7.2</option>
-                        <option value="7.3">Kelas 7.3</option>
-                        <option value="7.4">Kelas 7.4</option>
-                    </select>
-                    <input type="password" id="token" placeholder="Masukkan Token" required>
-                    <button type="submit">Mulai Kuis</button>
-                </form>
+            
+            <!-- Games Submenu -->
+            <div>
+                <button onclick="toggleSubmenu('submenu-games')" class="w-full flex justify-between items-center px-6 py-3 hover:bg-teal-600/50 transition-colors duration-200">
+                    <span class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor"><path d="M2 6a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM2 12a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2z" /></svg>
+                        Games
+                    </span>
+                    <svg id="arrow-games" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-300" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                </button>
+                <div id="submenu-games" class="hidden pl-8 bg-gray-900/50">
+                    <a href="#game1" class="nav-link block px-4 py-2 text-sm hover:bg-teal-600/50 transition-colors duration-200">Tebak Istilah TIK</a>
+                    <a href="#game2" class="nav-link block px-4 py-2 text-sm hover:bg-teal-600/50 transition-colors duration-200">Jejak Digital</a>
+                    <a href="#game3" class="nav-link block px-4 py-2 text-sm hover:bg-teal-600/50 transition-colors duration-200">Sortir Perangkat</a>
+                </div>
             </div>
-            <div id="quiz-container" style="display:none;">
-                <div class="quiz-header">
-                    <span id="timer">02:00</span>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar" id="progressBar"></div>
+        </nav>
+    </aside>
+
+    <!-- Overlay for mobile sidebar -->
+    <div id="overlay" class="fixed inset-0 bg-black/50 z-30 hidden md:hidden" onclick="toggleSidebar()"></div>
+
+    <!-- Main Content -->
+    <main id="main-content" class="md:ml-64 transition-all duration-300 ease-in-out">
+        <div class="p-4 md:p-8">
+            <!-- Header for mobile -->
+            <header class="md:hidden flex justify-between items-center mb-4">
+                <h1 id="page-title-mobile" class="text-2xl font-bold text-white">Beranda</h1>
+                <button id="menu-button" onclick="toggleSidebar()" class="text-white p-2 rounded-md bg-teal-600/50 hover:bg-teal-500/50">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </header>
+
+            <!-- Page content will be injected here -->
+            <div id="content-area">
+                <!-- Beranda Page -->
+                <div id="beranda" class="page-content">
+                    <div class="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl shadow-2xl text-center">
+                        <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4">Selamat Datang di Portal Pembelajaran TIK</h1>
+                        <p class="text-lg text-gray-300 mb-8 max-w-3xl mx-auto">Jelajahi materi, uji pemahamanmu dengan kuis interaktif, dan bersenang-senang dengan game edukatif seputar Teknologi Informasi dan Komunikasi.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <a href="#materi1" class="nav-link bg-teal-600 hover:bg-teal-500 text-white font-bold py-6 px-4 rounded-xl btn-animated">
+                                <h3 class="text-2xl mb-2">Mulai Belajar</h3>
+                                <p>Akses semua materi video.</p>
+                            </a>
+                            <a href="#kuis-registrasi" class="nav-link bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-6 px-4 rounded-xl btn-animated">
+                                <h3 class="text-2xl mb-2">Uji Kemampuan</h3>
+                                <p>Kerjakan kuis dan raih skor tertinggi.</p>
+                            </a>
+                            <a href="#game1" class="nav-link bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-6 px-4 rounded-xl btn-animated">
+                                <h3 class="text-2xl mb-2">Mainkan Game</h3>
+                                <p>Belajar sambil bermain.</p>
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <div id="question-area"></div>
-                <button id="nextBtn">Soal Berikutnya</button>
-            </div>
-            <div id="result-container" style="display:none;">
-                <h3>Hasil Kuis Anda</h3>
-                <p>Skor Akhir:</p>
-                <h2 id="score"></h2>
-                <p id="feedback"></p>
-                <button onclick="showPage('peringkat')">Lihat Papan Peringkat</button>
-            </div>
-        </section>
-        <section id="peringkat" class="page">
-            <h2>Papan Peringkat Siswa</h2>
-            <div class="podium">
-                <div class="rank-2">
-                    <span class="rank-icon">🥈</span>
-                    <p id="rank-2-name">-</p>
-                    <p id="rank-2-score">-</p>
+
+                <!-- Materi 1 Page -->
+                <div id="materi1" class="page-content hidden">
+                    <div class="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl shadow-2xl">
+                        <h1 class="text-3xl font-bold mb-1">Materi 1: Antarmuka & Pengelolaan File</h1>
+                        <p class="text-gray-400 mb-6">Memahami antarmuka pengguna (UI) dan cara mengelola file serta folder di komputermu.</p>
+                        <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
+                            <iframe class="w-full h-full" src="https://www.youtube.com/embed/0CwN73Iwz8I?si=IzJDqv8XGC-uiF0Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        </div>
+                    </div>
                 </div>
-                <div class="rank-1">
-                    <span class="rank-icon">🥇</span>
-                    <p id="rank-1-name">-</p>
-                    <p id="rank-1-score">-</p>
+
+                <!-- Materi 2 Page -->
+                <div id="materi2" class="page-content hidden">
+                    <div class="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl shadow-2xl">
+                        <h1 class="text-3xl font-bold mb-1">Materi 2: Peramban & Aplikasi Perkantoran</h1>
+                        <p class="text-gray-400 mb-6">Memanfaatkan peramban untuk mencari informasi dan menggunakan aplikasi perkantoran (pengolah kata, presentasi, dan data).</p>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
+                                <iframe class="w-full h-full" src="https://www.youtube.com/embed/xA2ZFOu9L7g?si=1YDzyVaF94jPAw6A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
+                            <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
+                                <iframe class="w-full h-full" src="https://www.youtube.com/embed/0IPFGbHPor4?si=G0UKE7gytNVwRCCX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="rank-3">
-                     <span class="rank-icon">🥉</span>
-                    <p id="rank-3-name">-</p>
-                    <p id="rank-3-score">-</p>
+
+                <!-- Materi 3 Page -->
+                <div id="materi3" class="page-content hidden">
+                    <div class="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl shadow-2xl">
+                        <h1 class="text-3xl font-bold mb-1">Materi 3: Komunikasi Menggunakan Surel</h1>
+                        <p class="text-gray-400 mb-6">Mempelajari cara memanfaatkan aplikasi surel (email) untuk berkomunikasi secara efektif dan aman.</p>
+                        <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
+                            <iframe class="w-full h-full" src="https://www.youtube.com/embed/LsQLlnBKkZU?si=D45bUWVadsq0x1fE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Kuis Registrasi Page -->
+                <div id="kuis-registrasi" class="page-content hidden">
+                    <div class="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl shadow-2xl max-w-lg mx-auto">
+                        <h1 class="text-3xl font-bold text-center mb-6">Registrasi Kuis</h1>
+                        <form id="quiz-reg-form" class="space-y-6">
+                            <div>
+                                <label for="nama" class="block text-sm font-medium text-gray-300">Nama Lengkap</label>
+                                <input type="text" id="nama" name="nama" required class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-teal-500 focus:border-teal-500">
+                            </div>
+                            <div>
+                                <label for="kelas" class="block text-sm font-medium text-gray-300">Kelas</label>
+                                <select id="kelas" name="kelas" required class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-teal-500 focus:border-teal-500">
+                                    <option value="7.1">7.1</option>
+                                    <option value="7.2">7.2</option>
+                                    <option value="7.3">7.3</option>
+                                    <option value="7.4">7.4</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="token" class="block text-sm font-medium text-gray-300">Token</label>
+                                <input type="password" id="token" name="token" required class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-teal-500 focus:border-teal-500">
+                                <p id="token-error" class="text-red-400 text-sm mt-1 hidden">Token salah!</p>
+                            </div>
+                            <button type="submit" class="w-full bg-teal-600 text-white py-3 px-4 rounded-md font-semibold btn-animated">Mulai Kuis</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Kuis Soal Page -->
+                <div id="kuis-soal" class="page-content hidden">
+                    <div class="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl shadow-2xl max-w-3xl mx-auto">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-xl font-bold">Soal <span id="question-number">1</span>/10</h2>
+                            <div class="flex items-center space-x-2 bg-gray-700 px-3 py-1 rounded-full text-lg font-mono">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" /></svg>
+                                <span id="timer">02:00</span>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-2.5 mb-6">
+                            <div id="progress-bar" class="bg-teal-500 h-2.5 rounded-full transition-all duration-300" style="width: 10%"></div>
+                        </div>
+                        <div id="quiz-container">
+                            <h3 id="question-text" class="text-2xl font-semibold mb-6"></h3>
+                            <div id="options-container" class="space-y-4"></div>
+                        </div>
+                        <button id="next-question-btn" class="w-full mt-8 bg-teal-600 text-white py-3 px-4 rounded-md font-semibold btn-animated">Selanjutnya</button>
+                    </div>
+                </div>
+
+                <!-- Kuis Hasil Page -->
+                <div id="kuis-hasil" class="page-content hidden">
+                    <div class="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl shadow-2xl max-w-lg mx-auto text-center">
+                        <h1 class="text-4xl font-bold mb-4">Kuis Selesai!</h1>
+                        <p class="text-gray-300 mb-2">Skor Akhir Anda:</p>
+                        <p id="final-score" class="text-7xl font-extrabold text-teal-400 mb-8">100</p>
+                        <div id="submission-status" class="mb-6 text-gray-400">Menyimpan hasil...</div>
+                        <div class="flex flex-col md:flex-row gap-4 justify-center">
+                            <button onclick="showPage('kuis-registrasi')" class="bg-gray-600 text-white py-3 px-6 rounded-md font-semibold btn-animated">Kerjakan Ulang</button>
+                            <a href="#peringkat" class="nav-link bg-teal-600 text-white py-3 px-6 rounded-md font-semibold btn-animated">Lihat Papan Peringkat</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Peringkat Page -->
+                <div id="peringkat" class="page-content hidden">
+                    <div class="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl shadow-2xl">
+                        <div class="flex justify-between items-center mb-6">
+                            <h1 class="text-3xl font-bold">Papan Peringkat</h1>
+                            <button id="refresh-peringkat" class="bg-teal-600 p-2 rounded-full btn-animated">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h5M20 20v-5h-5M4 4l1.5 1.5A9 9 0 0120.5 15M20 20l-1.5-1.5A9 9 0 003.5 9" /></svg>
+                            </button>
+                        </div>
+                        <div id="peringkat-loading" class="text-center py-10">Memuat data...</div>
+                        <div id="peringkat-content" class="hidden">
+                             <!-- Podium Section -->
+                            <div class="flex justify-center items-end gap-4 mb-10 text-white font-bold text-center">
+                                <div id="podium-2" class="podium-item podium-2 w-1/4 bg-gray-400 p-4 rounded-t-lg shadow-lg">
+                                    <p class="text-4xl">🥈</p>
+                                    <p class="text-xl truncate" id="nama-juara-2">-</p>
+                                    <p class="text-2xl" id="skor-juara-2">-</p>
+                                </div>
+                                <div id="podium-1" class="podium-item podium-1 w-1/3 bg-yellow-400 p-6 rounded-t-lg shadow-2xl">
+                                    <p class="text-6xl">🥇</p>
+                                    <p class="text-2xl truncate" id="nama-juara-1">-</p>
+                                    <p class="text-3xl" id="skor-juara-1">-</p>
+                                </div>
+                                <div id="podium-3" class="podium-item podium-3 w-1/4 bg-orange-400 p-3 rounded-t-lg shadow-lg">
+                                    <p class="text-3xl">🥉</p>
+                                    <p class="text-lg truncate" id="nama-juara-3">-</p>
+                                    <p class="text-xl" id="skor-juara-3">-</p>
+                                </div>
+                            </div>
+                            <!-- Leaderboard Table -->
+                            <div class="overflow-x-auto bg-gray-900/50 rounded-lg">
+                                <table class="w-full text-left">
+                                    <thead class="bg-gray-700/50 text-gray-300 uppercase text-sm">
+                                        <tr>
+                                            <th class="p-3">Peringkat</th>
+                                            <th class="p-3">Nama</th>
+                                            <th class="p-3">Kelas</th>
+                                            <th class="p-3">Skor</th>
+                                            <th class="p-3">Waktu</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="peringkat-table-body">
+                                        <!-- Data will be populated here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Games Pages -->
+                <div id="game1" class="page-content hidden">
+                    <div class="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl shadow-2xl text-center">
+                        <h1 class="text-3xl font-bold mb-4">Game: Tebak Istilah TIK</h1>
+                        <p class="text-gray-300 mb-6">Game ini sedang dalam pengembangan. Nantikan segera!</p>
+                        <div class="text-6xl animate-bounce">⚙️</div>
+                    </div>
+                </div>
+                <div id="game2" class="page-content hidden">
+                    <div class="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl shadow-2xl text-center">
+                        <h1 class="text-3xl font-bold mb-4">Game: Jejak Digital</h1>
+                        <p class="text-gray-300 mb-6">Game ini sedang dalam pengembangan. Nantikan segera!</p>
+                        <div class="text-6xl animate-pulse">👣</div>
+                    </div>
+                </div>
+                <div id="game3" class="page-content hidden">
+                    <div class="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl shadow-2xl text-center">
+                        <h1 class="text-3xl font-bold mb-4">Game: Sortir Perangkat</h1>
+                        <p class="text-gray-300 mb-6">Game ini sedang dalam pengembangan. Nantikan segera!</p>
+                        <div class="text-6xl animate-spin">💿</div>
+                    </div>
+                </div>
+
             </div>
-            <table id="leaderboard-table">
-                <thead>
-                    <tr>
-                        <th>Peringkat</th>
-                        <th>Nama</th>
-                        <th>Kelas</th>
-                        <th>Skor</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Data akan diisi oleh JavaScript -->
-                </tbody>
-            </table>
-        </section>
+        </div>
     </main>
 
-    <!-- Main Javascript (sekarang menjadi type="module") -->
-    <script type="module" src="script.js"></script>
+    <script>
+        // --- GLOBAL STATE & CONSTANTS ---
+        const SPREADSHEET_URL = 'https://script.google.com/macros/s/AKfycbzJAR1YwERatUJm1C1n3WsSgkCvx2og0FRKrrBK3Bt5i8o3eh0F07Ya4Hi2dz25ygx-Ng/exec';
+        const QUIZ_TOKEN = '1234';
+        const QUIZ_DURATION = 120; // 2 minutes in seconds
+
+        let currentQuestionIndex = 0;
+        let userScore = 0;
+        let quizTimer;
+        let timeLeft = QUIZ_DURATION;
+        let userData = { name: '', class: '' };
+
+        const quizQuestions = [
+            {
+                question: "Tampilan visual yang memungkinkan pengguna berinteraksi dengan komputer menggunakan elemen grafis seperti ikon dan jendela disebut...",
+                options: ["Command Line Interface (CLI)", "Graphical User Interface (GUI)", "Application Programming Interface (API)", "Text User Interface (TUI)"],
+                answer: "Graphical User Interface (GUI)"
+            },
+            {
+                question: "Untuk menyalin file atau folder, kombinasi tombol pintas (shortcut) yang umum digunakan pada Windows adalah...",
+                options: ["Ctrl + X", "Ctrl + V", "Ctrl + C", "Ctrl + Z"],
+                answer: "Ctrl + C"
+            },
+            {
+                question: "Aplikasi yang digunakan untuk menjelajahi halaman web di internet, seperti Google Chrome atau Mozilla Firefox, disebut...",
+                options: ["Mesin Pencari", "Sistem Operasi", "Peramban (Browser)", "Aplikasi Perkantoran"],
+                answer: "Peramban (Browser)"
+            },
+            {
+                question: "Untuk membuat dokumen surat atau laporan, aplikasi perkantoran yang paling tepat digunakan adalah...",
+                options: ["Microsoft Excel", "Microsoft PowerPoint", "Microsoft Word", "Google Chrome"],
+                answer: "Microsoft Word"
+            },
+            {
+                question: "Fitur dalam aplikasi spreadsheet seperti Microsoft Excel yang digunakan untuk menjumlahkan serangkaian angka secara otomatis adalah...",
+                options: ["AVERAGE", "COUNT", "SUM", "MAX"],
+                answer: "SUM"
+            },
+            {
+                question: "Layanan komunikasi yang memungkinkan pengguna mengirim dan menerima pesan elektronik melalui internet dikenal sebagai...",
+                options: ["Pesan Instan", "Forum Online", "Surel (Email)", "Media Sosial"],
+                answer: "Surel (Email)"
+            },
+            {
+                question: "Bagian dari alamat email yang berada setelah simbol '@' disebut...",
+                options: ["Nama Pengguna", "Protokol", "Subjek", "Domain"],
+                answer: "Domain"
+            },
+            {
+                question: "Apa fungsi dari folder 'Trash' atau 'Sampah' dalam aplikasi email?",
+                options: ["Menyimpan email yang akan dikirim", "Menyimpan email yang sudah terkirim", "Menyimpan email yang telah dihapus sementara", "Menyimpan draf email"],
+                answer: "Menyimpan email yang telah dihapus sementara"
+            },
+            {
+                question: "Aplikasi yang digunakan untuk membuat bahan presentasi dengan slide adalah...",
+                options: ["Microsoft Word", "Microsoft Excel", "Microsoft Access", "Microsoft PowerPoint"],
+                answer: "Microsoft PowerPoint"
+            },
+            {
+                question: "Saat mencari informasi di Google, menggunakan tanda kutip (\"\") di sekitar frasa, misalnya \"teknologi informasi\", akan...",
+                options: ["Mencari kata 'teknologi' atau 'informasi'", "Mencari frasa yang persis sama", "Mengecualikan kata tersebut dari pencarian", "Tidak berpengaruh pada hasil pencarian"],
+                answer: "Mencari frasa yang persis sama"
+            }
+        ];
+
+        // --- NAVIGATION & UI ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initial page load based on hash
+            const initialPage = window.location.hash.substring(1) || 'beranda';
+            showPage(initialPage);
+            updatePageTitle(initialPage);
+
+            // Setup navigation links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const pageId = link.getAttribute('href').substring(1);
+                    showPage(pageId);
+                    updatePageTitle(pageId);
+                    if (window.innerWidth < 768) {
+                        toggleSidebar(); // Close sidebar on mobile after navigation
+                    }
+                });
+            });
+            
+            // Setup quiz registration form
+            document.getElementById('quiz-reg-form').addEventListener('submit', handleQuizRegistration);
+            
+            // Setup leaderboard refresh
+            document.getElementById('refresh-peringkat').addEventListener('click', fetchLeaderboard);
+        });
+        
+        function showPage(pageId) {
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.add('hidden');
+            });
+            const activePage = document.getElementById(pageId);
+            if (activePage) {
+                activePage.classList.remove('hidden');
+                // If navigating to quiz, display question
+                if (pageId === 'kuis-soal') {
+                    displayQuestion();
+                }
+                // If navigating to leaderboard, fetch data
+                if (pageId === 'peringkat') {
+                    fetchLeaderboard();
+                }
+            } else {
+                document.getElementById('beranda').classList.remove('hidden');
+            }
+        }
+
+        function updatePageTitle(pageId) {
+            const titleMap = {
+                'beranda': 'Beranda',
+                'materi1': 'Materi: Antarmuka & File',
+                'materi2': 'Materi: Peramban & Perkantoran',
+                'materi3': 'Materi: Komunikasi Surel',
+                'kuis-registrasi': 'Kuis: Registrasi',
+                'kuis-soal': 'Kuis: Pengerjaan',
+                'kuis-hasil': 'Kuis: Hasil',
+                'peringkat': 'Papan Peringkat',
+                'game1': 'Game: Tebak Istilah',
+                'game2': 'Game: Jejak Digital',
+                'game3': 'Game: Sortir Perangkat'
+            };
+            const title = titleMap[pageId] || 'Beranda';
+            document.getElementById('page-title-mobile').textContent = title;
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            const mainContent = document.getElementById('main-content');
+            
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+            
+            if (sidebar.classList.contains('-translate-x-full')) {
+                mainContent.classList.remove('opacity-50');
+            } else {
+                mainContent.classList.add('opacity-50');
+            }
+        }
+
+        function toggleSubmenu(submenuId) {
+            const submenu = document.getElementById(submenuId);
+            const arrow = document.getElementById(`arrow-${submenuId.split('-')[1]}`);
+            submenu.classList.toggle('hidden');
+            arrow.classList.toggle('rotate-180');
+        }
+
+        // --- QUIZ LOGIC ---
+
+        function handleQuizRegistration(e) {
+            e.preventDefault();
+            const tokenInput = document.getElementById('token');
+            const tokenError = document.getElementById('token-error');
+            
+            if (tokenInput.value === QUIZ_TOKEN) {
+                tokenError.classList.add('hidden');
+                userData.name = document.getElementById('nama').value;
+                userData.class = document.getElementById('kelas').value;
+                startQuiz();
+            } else {
+                tokenError.classList.remove('hidden');
+            }
+        }
+        
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            userScore = 0;
+            timeLeft = QUIZ_DURATION;
+            showPage('kuis-soal');
+            startTimer();
+        }
+
+        function displayQuestion() {
+            const questionData = quizQuestions[currentQuestionIndex];
+            document.getElementById('question-number').textContent = currentQuestionIndex + 1;
+            document.getElementById('question-text').textContent = questionData.question;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            const shuffledOptions = [...questionData.options].sort(() => Math.random() - 0.5);
+
+            shuffledOptions.forEach(option => {
+                const optionId = `option-${option.replace(/\s+/g, '-')}`;
+                const optionElement = `
+                    <div class="quiz-option">
+                        <input type="radio" name="answer" id="${optionId}" value="${option}" class="hidden">
+                        <label for="${optionId}" class="block w-full text-left p-4 rounded-lg border-2 border-gray-600 bg-gray-700/50 cursor-pointer hover:bg-gray-600/50">
+                            ${option}
+                        </label>
+                    </div>
+                `;
+                optionsContainer.innerHTML += optionElement;
+            });
+
+            document.getElementById('progress-bar').style.width = `${((currentQuestionIndex + 1) / quizQuestions.length) * 100}%`;
+            
+            const nextBtn = document.getElementById('next-question-btn');
+            nextBtn.textContent = (currentQuestionIndex === quizQuestions.length - 1) ? 'Selesaikan Kuis' : 'Selanjutnya';
+            nextBtn.onclick = handleNextQuestion;
+        }
+
+        function handleNextQuestion() {
+            const selectedOption = document.querySelector('input[name="answer"]:checked');
+            if (!selectedOption) {
+                const modal = document.createElement('div');
+                modal.className = 'fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4';
+                modal.innerHTML = `
+                    <div class="bg-gray-800 rounded-xl p-8 text-center shadow-2xl">
+                        <p class="text-white text-lg mb-6">Silakan pilih jawaban terlebih dahulu!</p>
+                        <button onclick="this.parentElement.parentElement.remove()" class="bg-teal-600 text-white px-6 py-2 rounded-md btn-animated font-semibold">OK</button>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+                return;
+            }
+
+            if (selectedOption.value === quizQuestions[currentQuestionIndex].answer) {
+                userScore += 10;
+            }
+
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizQuestions.length) {
+                displayQuestion();
+            } else {
+                endQuiz();
+            }
+        }
+
+        function startTimer() {
+            if(quizTimer) clearInterval(quizTimer); // Clear any existing timer
+            const timerElement = document.getElementById('timer');
+            timeLeft = QUIZ_DURATION;
+            timerElement.textContent = '02:00';
+
+            quizTimer = setInterval(() => {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+                const seconds = (timeLeft % 60).toString().padStart(2, '0');
+                timerElement.textContent = `${minutes}:${seconds}`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(quizTimer);
+                    endQuiz();
+                }
+            }, 1000);
+        }
+
+        function endQuiz() {
+            clearInterval(quizTimer);
+            showPage('kuis-hasil');
+            document.getElementById('final-score').textContent = userScore;
+            saveScoreToSheet();
+        }
+
+        // --- SPREADSHEET INTEGRATION (REVISED) ---
+
+        function saveScoreToSheet() {
+            const statusElement = document.getElementById('submission-status');
+            statusElement.textContent = 'Menyimpan hasil...';
+            statusElement.classList.remove('text-green-400', 'text-red-400');
+            
+            // Membuat URL dengan parameter untuk metode GET (lebih andal untuk skrip sederhana)
+            const url = new URL(SPREADSHEET_URL);
+            url.searchParams.append('action', 'save');
+            url.searchParams.append('timestamp', new Date().toISOString());
+            url.searchParams.append('nama', userData.name);
+            url.searchParams.append('kelas', userData.class);
+            url.searchParams.append('skor', userScore);
+
+            // Menggunakan metode POST untuk mengirim data
+            const formData = new FormData();
+            formData.append('nama', userData.name);
+            formData.append('kelas', userData.class);
+            formData.append('skor', userScore);
+
+            fetch(SPREADSHEET_URL, {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json()) // Mengharapkan respons JSON dari skrip
+            .then(data => {
+                if(data.status === 'success') {
+                    statusElement.textContent = 'Hasil berhasil disimpan!';
+                    statusElement.classList.add('text-green-400');
+                } else {
+                    throw new Error(data.message || 'Gagal menyimpan data.');
+                }
+            })
+            .catch(error => {
+                console.error('Error saving score:', error);
+                statusElement.textContent = 'Gagal menyimpan hasil. Coba lagi nanti.';
+                statusElement.classList.add('text-red-400');
+            });
+        }
+
+        function fetchLeaderboard() {
+            const loadingEl = document.getElementById('peringkat-loading');
+            const contentEl = document.getElementById('peringkat-content');
+            const tableBody = document.getElementById('peringkat-table-body');
+
+            loadingEl.style.display = 'block';
+            contentEl.classList.add('hidden');
+            tableBody.innerHTML = '';
+
+            // Menambahkan parameter acak untuk mencegah caching
+            const url = `${SPREADSHEET_URL}?action=getLeaderboard&v=${new Date().getTime()}`;
+
+            fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Gagal mengambil data peringkat.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.status === 'error') {
+                    throw new Error(data.message);
+                }
+
+                loadingEl.style.display = 'none';
+                contentEl.classList.remove('hidden');
+
+                const sortedData = data.sort((a, b) => {
+                    if (b.Skor !== a.Skor) {
+                        return b.Skor - a.Skor;
+                    }
+                    // Mengonversi timestamp ke objek Date untuk perbandingan yang benar
+                    return new Date(a.Timestamp) - new Date(b.Timestamp);
+                });
+
+                const podiumNames = ['nama-juara-1', 'nama-juara-2', 'nama-juara-3'];
+                const podiumScores = ['skor-juara-1', 'skor-juara-2', 'skor-juara-3'];
+                for(let i = 0; i < 3; i++) {
+                    const elName = document.getElementById(podiumNames[i]);
+                    const elSkor = document.getElementById(podiumScores[i]);
+                    if (sortedData[i]) {
+                        elName.textContent = sortedData[i].Nama || '-';
+                        elSkor.textContent = sortedData[i].Skor || '-';
+                    } else {
+                        elName.textContent = '-';
+                        elSkor.textContent = '-';
+                    }
+                }
+
+                tableBody.innerHTML = ''; // Membersihkan data lama
+                sortedData.forEach((row, index) => {
+                    const tr = document.createElement('tr');
+                    tr.className = 'border-b border-gray-700 hover:bg-gray-800/80';
+                    tr.innerHTML = `
+                        <td class="p-3 font-bold">${index + 1}</td>
+                        <td class="p-3">${row.Nama}</td>
+                        <td class="p-3">${row.Kelas}</td>
+                        <td class="p-3 font-semibold text-teal-400">${row.Skor}</td>
+                        <td class="p-3 text-sm text-gray-400">${new Date(row.Timestamp).toLocaleString('id-ID')}</td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching leaderboard:', error);
+                loadingEl.textContent = 'Gagal memuat data peringkat. Pastikan ID Spreadsheet & pengaturan Deploy sudah benar.';
+            });
+        }
+    </script>
 </body>
 </html>
