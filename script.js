@@ -2,16 +2,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- KONFIGURASI FIREBASE ---
     // !!! PENTING: Ganti dengan konfigurasi Firebase Anda dari Langkah 1 !!!
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyArk54Hc7ese6xIPV3JRrEl0SWT2WZxc-I",
-  authDomain: "kuis-tik-kelas-7.firebaseapp.com",
-  projectId: "kuis-tik-kelas-7",
-  storageBucket: "kuis-tik-kelas-7.firebasestorage.app",
-  messagingSenderId: "981349086375",
-  appId: "1:981349086375:web:2145de00a0a773aa055782",
-  measurementId: "G-4RPY4KSYG8"
-};
+  const firebaseConfig = {
+    apiKey: "AIzaSyArk54Hc7ese6xIPV3JRrEl0SWT2WZxc-I",
+    authDomain: "kuis-tik-kelas-7.firebaseapp.com",
+    projectId: "kuis-tik-kelas-7",
+    storageBucket: "kuis-tik-kelas-7.firebasestorage.app",
+    messagingSenderId: "981349086375",
+    appId: "1:981349086375:web:2145de00a0a773aa055782",
+    measurementId: "G-4RPY4KSYG8"
+    };
+
     // --- INISIALISASI FIREBASE ---
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
