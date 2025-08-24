@@ -80,6 +80,22 @@
         .podium-1 { order: 2; min-height: 200px; background-image: linear-gradient(to top, #ffd700, #f0c300); }
         .podium-2 { order: 1; min-height: 150px; background-image: linear-gradient(to top, #c0c0c0, #b0b0b0); }
         .podium-3 { order: 3; min-height: 120px; background-image: linear-gradient(to top, #cd7f32, #b8732e); }
+
+        /* --- PERBAIKAN VIDEO RESPONSIVE --- */
+        .video-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
     </style>
 </head>
 <body class="overflow-x-hidden">
@@ -190,8 +206,8 @@
                     <div class="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl shadow-2xl">
                         <h1 class="text-3xl font-bold mb-1">Materi 1: Antarmuka & Pengelolaan File</h1>
                         <p class="text-gray-400 mb-6">Memahami antarmuka pengguna (UI) dan cara mengelola file serta folder di komputermu.</p>
-                        <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
-                            <iframe class="w-full h-full" src="https://www.youtube.com/embed/0CwN73Iwz8I?si=IzJDqv8XGC-uiF0Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        <div class="video-container rounded-lg overflow-hidden shadow-lg">
+                            <iframe src="https://www.youtube.com/embed/0CwN73Iwz8I?si=IzJDqv8XGC-uiF0Y" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                         </div>
                     </div>
                 </div>
@@ -202,11 +218,11 @@
                         <h1 class="text-3xl font-bold mb-1">Materi 2: Peramban & Aplikasi Perkantoran</h1>
                         <p class="text-gray-400 mb-6">Memanfaatkan peramban untuk mencari informasi dan menggunakan aplikasi perkantoran (pengolah kata, presentasi, dan data).</p>
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
-                                <iframe class="w-full h-full" src="https://www.youtube.com/embed/xA2ZFOu9L7g?si=1YDzyVaF94jPAw6A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            <div class="video-container rounded-lg overflow-hidden shadow-lg">
+                                <iframe src="https://www.youtube.com/embed/xA2ZFOu9L7g?si=1YDzyVaF94jPAw6A" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                             </div>
-                            <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
-                                <iframe class="w-full h-full" src="https://www.youtube.com/embed/0IPFGbHPor4?si=G0UKE7gytNVwRCCX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            <div class="video-container rounded-lg overflow-hidden shadow-lg">
+                                <iframe src="https://www.youtube.com/embed/0IPFGbHPor4?si=G0UKE7gytNVwRCCX" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                             </div>
                         </div>
                     </div>
@@ -217,8 +233,8 @@
                     <div class="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl shadow-2xl">
                         <h1 class="text-3xl font-bold mb-1">Materi 3: Komunikasi Menggunakan Surel</h1>
                         <p class="text-gray-400 mb-6">Mempelajari cara memanfaatkan aplikasi surel (email) untuk berkomunikasi secara efektif dan aman.</p>
-                        <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
-                            <iframe class="w-full h-full" src="https://www.youtube.com/embed/LsQLlnBKkZU?si=D45bUWVadsq0x1fE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        <div class="video-container rounded-lg overflow-hidden shadow-lg">
+                            <iframe src="https://www.youtube.com/embed/LsQLlnBKkZU?si=D45bUWVadsq0x1fE" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                         </div>
                     </div>
                 </div>
@@ -623,22 +639,13 @@
             saveScoreToSheet();
         }
 
-        // --- SPREADSHEET INTEGRATION (REVISED) ---
+        // --- SPREADSHEET INTEGRATION ---
 
         function saveScoreToSheet() {
             const statusElement = document.getElementById('submission-status');
             statusElement.textContent = 'Menyimpan hasil...';
             statusElement.classList.remove('text-green-400', 'text-red-400');
             
-            // Membuat URL dengan parameter untuk metode GET (lebih andal untuk skrip sederhana)
-            const url = new URL(SPREADSHEET_URL);
-            url.searchParams.append('action', 'save');
-            url.searchParams.append('timestamp', new Date().toISOString());
-            url.searchParams.append('nama', userData.name);
-            url.searchParams.append('kelas', userData.class);
-            url.searchParams.append('skor', userScore);
-
-            // Menggunakan metode POST untuk mengirim data
             const formData = new FormData();
             formData.append('nama', userData.name);
             formData.append('kelas', userData.class);
@@ -648,7 +655,7 @@
                 method: 'POST',
                 body: formData,
             })
-            .then(response => response.json()) // Mengharapkan respons JSON dari skrip
+            .then(response => response.json())
             .then(data => {
                 if(data.status === 'success') {
                     statusElement.textContent = 'Hasil berhasil disimpan!';
@@ -673,8 +680,7 @@
             contentEl.classList.add('hidden');
             tableBody.innerHTML = '';
 
-            // Menambahkan parameter acak untuk mencegah caching
-            const url = `${SPREADSHEET_URL}?action=getLeaderboard&v=${new Date().getTime()}`;
+            const url = `${SPREADSHEET_URL}?v=${new Date().getTime()}`;
 
             fetch(url)
             .then(response => {
@@ -695,7 +701,6 @@
                     if (b.Skor !== a.Skor) {
                         return b.Skor - a.Skor;
                     }
-                    // Mengonversi timestamp ke objek Date untuk perbandingan yang benar
                     return new Date(a.Timestamp) - new Date(b.Timestamp);
                 });
 
@@ -713,7 +718,7 @@
                     }
                 }
 
-                tableBody.innerHTML = ''; // Membersihkan data lama
+                tableBody.innerHTML = '';
                 sortedData.forEach((row, index) => {
                     const tr = document.createElement('tr');
                     tr.className = 'border-b border-gray-700 hover:bg-gray-800/80';
