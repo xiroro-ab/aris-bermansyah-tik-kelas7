@@ -265,19 +265,19 @@
 
     <!-- Main Content -->
     <main id="main-content" class="transition-all duration-300 ease-in-out h-screen overflow-y-auto">
-        <div class="p-4 md:p-8">
-            <!-- Header for mobile -->
-            <header class="flex justify-between items-center mb-4">
-                <div id="page-title-container" class="flex items-center">
-                    <button id="menu-button" onclick="toggleSidebar()" class="text-white p-2 rounded-md bg-teal-600/50 hover:bg-teal-500/50 mr-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
-                    <h1 id="page-title" class="text-2xl font-bold text-white">Beranda</h1>
-                </div>
-            </header>
+        <!-- Sticky Header -->
+        <header class="sticky top-0 z-20 flex justify-between items-center p-4 bg-gray-900/70 backdrop-blur-sm">
+            <div class="flex items-center">
+                <button id="menu-button" onclick="toggleSidebar()" class="text-white p-2 rounded-md bg-teal-600/50 hover:bg-teal-500/50 mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+                <h1 id="page-title" class="text-2xl font-bold text-white">Beranda</h1>
+            </div>
+        </header>
 
+        <div class="p-4 md:p-8">
             <!-- Page content will be injected here -->
             <div id="content-area">
                 <!-- Beranda Page -->
