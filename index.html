@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informatika Kelas 7 - Pembelajaran Interaktif</title>
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- SweetAlert2 for beautiful alerts -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <!-- Tombol untuk membuka/menutup sidebar di perangkat mobile -->
+    <button class="sidebar-toggle" id="sidebarToggle">&#9776;</button>
+
+    <!-- Sidebar Navigasi Utama -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>Informatika K7</h3>
+        </div>
+        <ul>
+            <li><a href="#beranda" class="nav-link active">Beranda</a></li>
+            <li>
+                <a href="#" class="has-submenu">Materi <span class="arrow">&#9662;</span></a>
+                <ul class="submenu">
+                    <li><a href="#materi-1" class="nav-link">1. Antarmuka & File</a></li>
+                    <li><a href="#materi-2" class="nav-link">2. Peramban & Office</a></li>
+                    <li><a href="#materi-3" class="nav-link">3. Komunikasi Surel</a></li>
+                </ul>
+            </li>
+            <li><a href="#kuis" class="nav-link">Kuis Interaktif</a></li>
+            <li><a href="#peringkat" class="nav-link">Papan Peringkat</a></li>
+            <li>
+                <a href="#" class="has-submenu">Games Edukatif <span class="arrow">&#9662;</span></a>
+                <ul class="submenu">
+                    <li><a href="#game-1" class="nav-link">Game 1: Cepat Ketik</a></li>
+                    <li><a href="#game-2" class="nav-link">Game 2: Pasang Perangkat</a></li>
+                    <li><a href="#game-3" class="nav-link">Game 3: Anti-Phishing</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Konten Utama Website -->
+    <main class="content" id="mainContent">
+        <!-- Halaman Beranda -->
+        <section id="beranda" class="page active">
+            <h1>Selamat Datang di Portal Pembelajaran Informatika!</h1>
+            <p>Jelajahi materi, uji pemahamanmu dengan kuis, dan bermain game edukatif untuk menjadi ahli Teknologi Informasi dan Komunikasi.</p>
+            <div class="card-container">
+                <div class="card" onclick="showPage('materi-1')">
+                    <h3>Materi Pelajaran</h3>
+                    <p>Pelajari semua konsep dasar TIK mulai dari antarmuka hingga aplikasi perkantoran.</p>
+                </div>
+                <div class="card" onclick="showPage('kuis')">
+                    <h3>Uji Kemampuan</h3>
+                    <p>Kerjakan kuis interaktif dengan batasan waktu untuk mengukur pemahaman Anda.</p>
+                </div>
+                <div class="card" onclick="showPage('peringkat')">
+                    <h3>Lihat Peringkat</h3>
+                    <p>Bersaing dengan teman-temanmu dan lihat siapa yang menjadi juara kelas.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Halaman Materi -->
+        <section id="materi-1" class="page">
+            <h2>Materi 1: Antarmuka Pengguna & Manajemen File</h2>
+            <p>Di sini kita akan belajar tentang bagaimana kita berinteraksi dengan komputer melalui antarmuka pengguna (GUI) dan cara mengelola file serta folder secara efisien.</p>
+            <h4>Contoh Video Pembelajaran</h4>
+            <div class="embed-container">
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <h4>Contoh Presentasi Google Slides</h4>
+            <div class="embed-container">
+                 <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vR9L1_F_2y-eN_a_Gg-w0-ck-v_z-yf-V8k-k-l-w_a-b_c-d-e-f-g-h-i-j-k/embed?start=false&loop=false&delayms=3000" frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+            </div>
+        </section>
+        <section id="materi-2" class="page">
+            <h2>Materi 2: Peramban & Aplikasi Perkantoran</h2>
+            <p>Materi ini membahas cara menggunakan browser untuk mencari informasi secara efektif dan memanfaatkan aplikasi TIK (seperti Word, Excel, PowerPoint) untuk membuat laporan, presentasi, dan analisis data sederhana.</p>
+        </section>
+        <section id="materi-3" class="page">
+            <h2>Materi 3: Komunikasi Menggunakan Surel (Email)</h2>
+            <p>Pelajari cara memanfaatkan email (surel) untuk berkomunikasi secara efektif dan aman di dunia digital, termasuk etika dan cara menghindari penipuan (phishing).</p>
+        </section>
+
+        <!-- Halaman Kuis -->
+        <section id="kuis" class="page">
+            <h2>Kuis Teknologi Informasi dan Komunikasi</h2>
+            <div id="quiz-registration">
+                <h3>Registrasi Sebelum Memulai</h3>
+                <form id="regForm">
+                    <input type="text" id="nama" placeholder="Nama Lengkap" required>
+                    <select id="kelas" required>
+                        <option value="">Pilih Kelas</option>
+                        <option value="7.1">Kelas 7.1</option>
+                        <option value="7.2">Kelas 7.2</option>
+                        <option value="7.3">Kelas 7.3</option>
+                        <option value="7.4">Kelas 7.4</option>
+                    </select>
+                    <input type="password" id="token" placeholder="Masukkan Token" required>
+                    <button type="submit">Mulai Kuis</button>
+                </form>
+            </div>
+
+            <div id="quiz-container" style="display:none;">
+                <div class="quiz-header">
+                    <span id="timer">02:00</span>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                </div>
+                <div id="question-area"></div>
+                <button id="nextBtn">Soal Berikutnya</button>
+            </div>
+
+            <div id="result-container" style="display:none;">
+                <h3>Hasil Kuis Anda</h3>
+                <p>Skor Akhir:</p>
+                <h2 id="score"></h2>
+                <p id="feedback"></p>
+                <button onclick="showPage('peringkat')">Lihat Papan Peringkat</button>
+            </div>
+        </section>
+
+        <!-- Halaman Peringkat -->
+        <section id="peringkat" class="page">
+            <h2>Papan Peringkat Siswa</h2>
+            <div class="podium">
+                <div class="rank-2">
+                    <span class="rank-icon">🥈</span>
+                    <p id="rank-2-name">-</p>
+                    <p id="rank-2-score">-</p>
+                </div>
+                <div class="rank-1">
+                    <span class="rank-icon">🥇</span>
+                    <p id="rank-1-name">-</p>
+                    <p id="rank-1-score">-</p>
+                </div>
+                <div class="rank-3">
+                     <span class="rank-icon">🥉</span>
+                    <p id="rank-3-name">-</p>
+                    <p id="rank-3-score">-</p>
+                </div>
+            </div>
+            <table id="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Peringkat</th>
+                        <th>Nama</th>
+                        <th>Kelas</th>
+                        <th>Skor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data peringkat akan diisi oleh JavaScript -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Halaman Games -->
+        <section id="game-1" class="page">
+            <h2>Game 1: Cepat Ketik Istilah TIK</h2>
+            <p>Segera Hadir! Game seru untuk melatih kecepatan mengetik istilah-istilah dalam dunia TIK.</p>
+        </section>
+        <section id="game-2" class="page">
+            <h2>Game 2: Pasang Perangkat Keras</h2>
+            <p>Segera Hadir! Game drag-and-drop untuk memasangkan komponen komputer dengan benar.</p>
+        </section>
+        <section id="game-3" class="page">
+            <h2>Game 3: Detektif Anti-Phishing</h2>
+            <p>Segera Hadir! Uji kemampuanmu membedakan email asli dan email phishing.</p>
+        </section>
+    </main>
+
+    <!-- Main Javascript -->
+    <script src="script.js"></script>
+</body>
+</html>
