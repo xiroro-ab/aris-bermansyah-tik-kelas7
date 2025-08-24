@@ -1,8 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- KONFIGURASI API GOOGLE SHEETS ---
-    // !!! PENTING: Ganti dengan URL Web App BARU Anda !!!
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw31S-J_bpWffijkP7nh8wUCThiHGZhK_eH3haeKI0rzAjE83-t5yFvpHznOwu1U1f1-A/exec";
+    // --- KONFIGURASI FIREBASE ---
+    // !!! PENTING: Ganti dengan konfigurasi Firebase Anda dari Langkah 1 !!!
+  const firebaseConfig = {
+    apiKey: "AIzaSyArk54Hc7ese6xIPV3JRrEl0SWT2WZxc-I",
+    authDomain: "kuis-tik-kelas-7.firebaseapp.com",
+    projectId: "kuis-tik-kelas-7",
+    storageBucket: "kuis-tik-kelas-7.firebasestorage.app",
+    messagingSenderId: "981349086375",
+    appId: "1:981349086375:web:2145de00a0a773aa055782",
+    measurementId: "G-4RPY4KSYG8"
+    };
+
+    // --- INISIALISASI FIREBASE ---
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
     // --- PEMILIH ELEMEN DOM ---
     const navLinks = document.querySelectorAll('.nav-link');
@@ -10,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const sidebar = document.getElementById('sidebar');
     const sidebarToggle = document.getElementById('sidebarToggle');
     const mainContent = document.getElementById('mainContent');
-    const submenuToggles = document.querySelectorAll('.has-submenu');
 
     // --- FUNGSI NAVIGASI & TAMPILAN HALAMAN ---
     window.showPage = (pageId) => {
@@ -25,9 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 link.classList.add('active');
             }
         });
-        if (pageId === 'peringkat') {
-            fetchLeaderboardData();
-        }
         if (window.innerWidth <= 768) {
             sidebar.classList.remove('open');
             document.body.classList.remove('sidebar-open');
@@ -53,11 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
         { q: "Untuk menyimpan file secara permanen, kita menggunakan...", o: ["RAM", "Cache", "Hard Drive", "Processor"], a: "Hard Drive" },
         { q: "Format file untuk dokumen teks yang dibuat di Microsoft Word adalah...", o: [".xlsx", ".pptx", ".docx", ".jpg"], a: ".docx" },
         { q: "URL adalah singkatan dari...", o: ["Uniform Resource Locator", "Universal Routing Language", "Uniform Resource Language", "Universal Resource Locator"], a: "Uniform Resource Locator" },
-        { q: "Tombol keyboard untuk menyalin teks yang sudah dipilih adalah...", o: ["Ctrl + V", "Ctrl + X", "Ctrl + C", "Ctrl + P"], a: "Ctrl + C" },
-        { q: "Aplikasi perkantoran untuk membuat presentasi adalah...", o: ["Excel", "Outlook", "Word", "PowerPoint"], a: "PowerPoint" },
-        { q: "Apa kepanjangan dari 'e-mail'?", o: ["Electric Mail", "Easy Mail", "External Mail", "Electronic Mail"], a: "Electronic Mail" },
-        { q: "Perangkat untuk memasukkan suara ke komputer disebut...", o: ["Speaker", "Webcam", "Microphone", "Printer"], a: "Microphone" },
-        { q: "Jaringan komputer global yang menghubungkan seluruh dunia disebut...", o: ["Intranet", "LAN", "WAN", "Internet"], a: "Internet" },
     ];
     let currentQuestionIndex = 0;
     let score = 0;
@@ -131,23 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
         saveScoreToLeaderboard(finalScore);
     }
 
-    // --- FUNGSI INTERAKSI DENGAN GOOGLE SHEETS (METODE JSONP) ---
-
-    // Fungsi untuk membuat request JSONP
-    function jsonpRequest(url, callbackName) {
-        const script = document.createElement('script');
-        script.src = `${url}&callback=${callbackName}`;
-        document.body.appendChild(script);
-        // Membersihkan script setelah dijalankan
-        script.onload = () => {
-            document.body.removeChild(script);
-        };
-        script.onerror = () => {
-            document.body.removeChild(script);
-            // Panggil callback dengan status error
-            window[callbackName]({ success: false, message: "Gagal memuat script dari server." });
-        };
-    }
+    // --- FUNGSI INTERAKSI DENGAN FIREBASE ---
 
     function saveScoreToLeaderboard(finalScore) {
         const name = document.getElementById('nama').value;
@@ -159,42 +146,43 @@ document.addEventListener('DOMContentLoaded', () => {
             didOpen: () => { Swal.showLoading() }
         });
 
-        // Definisikan fungsi callback yang akan dipanggil oleh Google Script
-        window.saveCallback = (result) => {
-            if (result.success) {
-                Swal.fire('Berhasil!', 'Skor Anda telah disimpan.', 'success');
-            } else {
-                Swal.fire('Gagal', `Terjadi kesalahan saat menyimpan: ${result.message}`, 'error');
-            }
-            delete window.saveCallback; // Hapus fungsi setelah digunakan
-        };
-
-        const params = `?action=save&name=${encodeURIComponent(name)}&className=${encodeURIComponent(className)}&score=${finalScore}`;
-        jsonpRequest(SCRIPT_URL + params, 'saveCallback');
+        db.collection("leaderboard").add({
+            name: name,
+            class: className,
+            score: finalScore,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        })
+        .then(() => {
+            Swal.fire('Berhasil!', 'Skor Anda telah disimpan.', 'success');
+        })
+        .catch((error) => {
+            console.error("Error adding document: ", error);
+            Swal.fire('Gagal', 'Terjadi kesalahan saat menyimpan skor.', 'error');
+        });
     }
 
-    function fetchLeaderboardData() {
+    function listenToLeaderboardChanges() {
         const tableBody = document.querySelector("#leaderboard-table tbody");
         tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Memuat data peringkat...</td></tr>';
-        
-        // Definisikan fungsi callback yang akan dipanggil oleh Google Script
-        window.displayLeaderboard = (result) => {
-            if (result.success) {
-                updateLeaderboardDisplay(result.data);
-            } else {
-                tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center;">Gagal memuat data: ${result.message}</td></tr>`;
-            }
-            delete window.displayLeaderboard; // Hapus fungsi setelah digunakan
-        };
 
-        jsonpRequest(SCRIPT_URL, 'displayLeaderboard');
+        db.collection("leaderboard").orderBy("score", "desc").limit(20)
+            .onSnapshot((querySnapshot) => {
+                const leaderboardData = [];
+                querySnapshot.forEach((doc) => {
+                    leaderboardData.push(doc.data());
+                });
+                updateLeaderboardDisplay(leaderboardData);
+            }, (error) => {
+                console.error("Error listening to leaderboard: ", error);
+                tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Gagal memuat data.</td></tr>';
+            });
     }
 
     function updateLeaderboardDisplay(leaderboardData) {
         const top3 = leaderboardData.slice(0, 3);
         const setPodium = (rank, data) => {
-            document.getElementById(`rank-${rank}-name`).innerText = data?.nama || '-';
-            document.getElementById(`rank-${rank}-score`).innerText = data?.skor !== undefined ? data.skor : '-';
+            document.getElementById(`rank-${rank}-name`).innerText = data?.name || '-';
+            document.getElementById(`rank-${rank}-score`).innerText = data?.score !== undefined ? data.score : '-';
         };
         setPodium(1, top3[0]);
         setPodium(2, top3[1]);
@@ -207,12 +195,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         leaderboardData.forEach((player, index) => {
-            const row = `<tr><td>${index + 1}</td><td>${player.nama}</td><td>${player.kelas}</td><td>${player.skor}</td></tr>`;
+            const row = `<tr><td>${index + 1}</td><td>${player.name}</td><td>${player.class}</td><td>${player.score}</td></tr>`;
             tableBody.innerHTML += row;
         });
     }
 
     // --- INISIALISASI APLIKASI ---
     showPage('beranda');
-    fetchLeaderboardData();
+    listenToLeaderboardChanges(); // Memulai listener real-time
 });
