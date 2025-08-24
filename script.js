@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- KONFIGURASI API GOOGLE SHEETS ---
-    // !!! PENTING: Ganti dengan URL Web App BARU yang Anda dapatkan dari Langkah 4 !!!
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw14Ko0YEWWW9p-Q-sScSiCcDM58oVZAsaD3iBoUnISku9XEWfLrxJxmYoDPBVbKhB3qw/exec";
+    // !!! PENTING: Ganti dengan URL Web App BARU Anda !!!
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzDwABe0G-gcy6mm1b39jhp0m8tbaHVInWCkugMsg48HPipRHy8DDf2BDfgtz-BQ-lhgQ/exec";
 
     // --- PEMILIH ELEMEN DOM ---
     const navLinks = document.querySelectorAll('.nav-link');
@@ -131,54 +131,63 @@ document.addEventListener('DOMContentLoaded', () => {
         saveScoreToLeaderboard(finalScore);
     }
 
-    // --- FUNGSI INTERAKSI DENGAN GOOGLE SHEETS (VERSI DEFINITIF) ---
+    // --- FUNGSI INTERAKSI DENGAN GOOGLE SHEETS (METODE JSONP) ---
+
+    // Fungsi untuk membuat request JSONP
+    function jsonpRequest(url, callbackName) {
+        const script = document.createElement('script');
+        script.src = `${url}&callback=${callbackName}`;
+        document.body.appendChild(script);
+        // Membersihkan script setelah dijalankan
+        script.onload = () => {
+            document.body.removeChild(script);
+        };
+        script.onerror = () => {
+            document.body.removeChild(script);
+            // Panggil callback dengan status error
+            window[callbackName]({ success: false, message: "Gagal memuat script dari server." });
+        };
+    }
 
     function saveScoreToLeaderboard(finalScore) {
         const name = document.getElementById('nama').value;
         const className = document.getElementById('kelas').value;
-        const data = { name, className, score: finalScore };
-
+        
         Swal.fire({
             title: 'Menyimpan Skor...',
             allowOutsideClick: false,
             didOpen: () => { Swal.showLoading() }
         });
 
-        fetch(SCRIPT_URL, {
-            method: 'POST',
-            body: JSON.stringify(data),
-        })
-        .then(response => response.json())
-        .then(result => {
+        // Definisikan fungsi callback yang akan dipanggil oleh Google Script
+        window.saveCallback = (result) => {
             if (result.success) {
                 Swal.fire('Berhasil!', 'Skor Anda telah disimpan.', 'success');
             } else {
-                throw new Error(result.message);
+                Swal.fire('Gagal', `Terjadi kesalahan saat menyimpan: ${result.message}`, 'error');
             }
-        })
-        .catch(error => {
-            console.error('Error saat menyimpan:', error);
-            Swal.fire('Gagal', `Terjadi kesalahan saat menyimpan: ${error.message}`, 'error');
-        });
+            delete window.saveCallback; // Hapus fungsi setelah digunakan
+        };
+
+        const params = `?action=save&name=${encodeURIComponent(name)}&className=${encodeURIComponent(className)}&score=${finalScore}`;
+        jsonpRequest(SCRIPT_URL + params, 'saveCallback');
     }
 
     function fetchLeaderboardData() {
         const tableBody = document.querySelector("#leaderboard-table tbody");
         tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Memuat data peringkat...</td></tr>';
-
-        fetch(SCRIPT_URL)
-        .then(response => response.json())
-        .then(result => {
+        
+        // Definisikan fungsi callback yang akan dipanggil oleh Google Script
+        window.displayLeaderboard = (result) => {
             if (result.success) {
                 updateLeaderboardDisplay(result.data);
             } else {
-                throw new Error(result.message);
+                tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center;">Gagal memuat data: ${result.message}</td></tr>`;
             }
-        })
-        .catch(error => {
-            console.error('Error saat memuat:', error);
-            tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center;">Gagal memuat data: ${error.message}</td></tr>`;
-        });
+            delete window.displayLeaderboard; // Hapus fungsi setelah digunakan
+        };
+
+        jsonpRequest(SCRIPT_URL, 'displayLeaderboard');
     }
 
     function updateLeaderboardDisplay(leaderboardData) {
