@@ -1,15 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- KONFIGURASI FIREBASE ---
-    // !!! PENTING: Ganti dengan konfigurasi Firebase Anda dari Langkah 1 !!!
-  const firebaseConfig = {
-    apiKey: "AIzaSyArk54Hc7ese6xIPV3JRrEl0SWT2WZxc-I",
-    authDomain: "kuis-tik-kelas-7.firebaseapp.com",
-    projectId: "kuis-tik-kelas-7",
-    storageBucket: "kuis-tik-kelas-7.firebasestorage.app",
-    messagingSenderId: "981349086375",
-    appId: "1:981349086375:web:2145de00a0a773aa055782",
-    measurementId: "G-4RPY4KSYG8"
+    // Konfigurasi Anda telah dimasukkan di sini.
+    const firebaseConfig = {
+        apiKey: "AIzaSyArk54Hc7ese6xIPV3JRrEl0SWT2WZxc-I",
+        authDomain: "kuis-tik-kelas-7.firebaseapp.com",
+        projectId: "kuis-tik-kelas-7",
+        storageBucket: "kuis-tik-kelas-7.firebasestorage.app",
+        messagingSenderId: "981349086375",
+        appId: "1:981349086375:web:2145de00a0a773aa055782",
+        measurementId: "G-4RPY4KSYG8"
     };
 
     // --- INISIALISASI FIREBASE ---
@@ -149,8 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
         db.collection("leaderboard").add({
             name: name,
             class: className,
-            score: finalScore,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            score: finalScore
         })
         .then(() => {
             Swal.fire('Berhasil!', 'Skor Anda telah disimpan.', 'success');
