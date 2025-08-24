@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- KONFIGURASI API GOOGLE SHEETS ---
     // !!! PENTING: Ganti dengan URL Web App yang Anda dapatkan dari Google Apps Script !!!
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwjRE9FnXiZI6FqNaCfuVzAbDgL4ycyVQp23zVZL_4oE5vuoxMm4qtTpUVw1LOgjI2U/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwhiSigcXYXbbZrv5rsxWA2NvZEKwGhfLomLZQq3YMUg8w-XptF9KI1CGw1WNDgCx4k4A/exec";
 
     // --- FUNGSI NAVIGASI & TAMPILAN HALAMAN ---
     window.showPage = (pageId) => {
@@ -190,43 +190,51 @@ document.addEventListener('DOMContentLoaded', () => {
         saveScoreToLeaderboard(finalScore);
     }
 
-    // --- FUNGSI INTERAKSI DENGAN GOOGLE SHEETS ---
-    function saveScoreToLeaderboard(finalScore) {
-        const name = document.getElementById('nama').value;
-        const className = document.getElementById('kelas').value;
-        
-        const data = { name, className, score: finalScore };
+// --- FUNGSI INTERAKSI DENGAN GOOGLE SHEETS ---
+function saveScoreToLeaderboard(finalScore) {
+    const name = document.getElementById('nama').value;
+    const className = document.getElementById('kelas').value;
+    
+    // Tampilkan loading spinner
+    Swal.fire({
+        title: 'Menyimpan Skor...',
+        text: 'Mohon tunggu sebentar.',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading()
+        }
+    });
 
-        // Tampilkan loading spinner
-        Swal.fire({
-            title: 'Menyimpan Skor...',
-            text: 'Mohon tunggu sebentar.',
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading()
-            }
-        });
+    // MEMBUAT URL DENGAN PARAMETER DATA
+    // Contoh: .../exec?action=save&name=Budi&className=7.1&score=100
+    const params = `?action=save&name=${encodeURIComponent(name)}&className=${encodeURIComponent(className)}&score=${finalScore}`;
+    const urlWithParams = SCRIPT_URL + params;
 
-        fetch(SCRIPT_URL, {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-        .then(response => response.json())
-        .then(result => {
-            console.log(result);
+    // MENGIRIM PERMINTAAN DENGAN METODE GET
+    fetch(urlWithParams)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(result => {
+        console.log(result);
+        if (result.success) {
             Swal.close();
             Swal.fire('Berhasil!', 'Skor Anda telah disimpan.', 'success');
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            Swal.close();
-            Swal.fire('Gagal', 'Terjadi kesalahan saat menyimpan skor.', 'error');
-        });
-    }
+        } else {
+            // Menampilkan pesan error spesifik dari Apps Script
+            throw new Error(result.message || 'Terjadi error tidak diketahui dari server');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        Swal.close();
+        // Menampilkan pesan error yang lebih jelas kepada pengguna
+        Swal.fire('Gagal', `Terjadi kesalahan: ${error.message}`, 'error');
+    });
+}
 
     function fetchLeaderboardData() {
         // Tampilkan pesan loading di tabel
