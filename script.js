@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- KONFIGURASI API GOOGLE SHEETS ---
     // !!! PENTING: Ganti dengan URL Web App BARU Anda !!!
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzDwABe0G-gcy6mm1b39jhp0m8tbaHVInWCkugMsg48HPipRHy8DDf2BDfgtz-BQ-lhgQ/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw31S-J_bpWffijkP7nh8wUCThiHGZhK_eH3haeKI0rzAjE83-t5yFvpHznOwu1U1f1-A/exec";
 
     // --- PEMILIH ELEMEN DOM ---
     const navLinks = document.querySelectorAll('.nav-link');
