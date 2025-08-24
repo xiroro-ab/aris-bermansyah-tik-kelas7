@@ -8,18 +8,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const mainContent = document.getElementById('mainContent');
     const submenuToggles = document.querySelectorAll('.has-submenu');
 
-    // --- DATABASE SEMENTARA (Simulasi untuk Papan Peringkat) ---
-    // Di aplikasi nyata, data ini akan diambil dari database atau Google Sheet.
-    let leaderboardData = [
-        { name: "Bunga Citra", class: "7.1", score: 100 },
-        { name: "Andi Wijaya", class: "7.2", score: 95 },
-        { name: "Charlie D.", class: "7.4", score: 90 },
-        { name: "Dewi Lestari", class: "7.3", score: 85 },
-        { name: "Eko Prasetyo", class: "7.1", score: 80 },
-    ];
+    // --- KONFIGURASI API GOOGLE SHEETS ---
+    // !!! PENTING: Ganti dengan URL Web App yang Anda dapatkan dari Google Apps Script !!!
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx7aklsrstQESiP13lmDKM2BRRKR62MIZkkgclOwomLpe_KcG1OffV2B9GM0ifvO0fBMw/exec";
 
     // --- FUNGSI NAVIGASI & TAMPILAN HALAMAN ---
-    // Fungsi global untuk menampilkan halaman berdasarkan ID
     window.showPage = (pageId) => {
         pages.forEach(page => page.classList.remove('active'));
         const targetPage = document.getElementById(pageId);
@@ -33,15 +26,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 link.classList.add('active');
             }
         });
+        
+        // Jika halaman peringkat dibuka, ambil data terbaru
+        if (pageId === 'peringkat') {
+            fetchLeaderboardData();
+        }
 
-        // Tutup sidebar di mobile setelah klik link
         if (window.innerWidth <= 768) {
             sidebar.classList.remove('open');
             document.body.classList.remove('sidebar-open');
         }
     }
 
-    // Event listener untuk setiap link navigasi
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
@@ -50,13 +46,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Event listener untuk tombol toggle sidebar
     sidebarToggle.addEventListener('click', () => {
         sidebar.classList.toggle('open');
         document.body.classList.toggle('sidebar-open');
     });
 
-    // Menutup sidebar jika klik di area konten utama
     mainContent.addEventListener('click', () => {
         if (sidebar.classList.contains('open')) {
             sidebar.classList.remove('open');
@@ -64,7 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // Event listener untuk membuka/menutup submenu
     submenuToggles.forEach(toggle => {
         toggle.addEventListener('click', (e) => {
             e.preventDefault();
@@ -77,7 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-
 
     // --- LOGIKA KUIS ---
     const regForm = document.getElementById('regForm');
@@ -101,7 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let score = 0;
     let timerInterval;
 
-    // Menangani registrasi kuis
     regForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const token = document.getElementById('token').value;
@@ -124,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentQuestionIndex = 0;
         score = 0;
         displayQuestion();
-        startTimer(120); // 2 menit = 120 detik
+        startTimer(120);
     }
 
     function displayQuestion() {
@@ -143,7 +134,6 @@ document.addEventListener('DOMContentLoaded', () => {
         updateProgressBar();
     }
 
-    // Tombol untuk soal berikutnya
     document.getElementById('nextBtn').addEventListener('click', () => {
         const selected = document.querySelector('input[name="answer"]:checked');
         if (!selected) {
@@ -166,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function startTimer(duration) {
         let time = duration;
         const timerEl = document.getElementById('timer');
-        clearInterval(timerInterval); // Hentikan timer sebelumnya jika ada
+        clearInterval(timerInterval);
         timerInterval = setInterval(() => {
             let minutes = parseInt(time / 60, 10);
             let seconds = parseInt(time % 60, 10);
@@ -200,23 +190,69 @@ document.addEventListener('DOMContentLoaded', () => {
         saveScoreToLeaderboard(finalScore);
     }
 
+    // --- FUNGSI INTERAKSI DENGAN GOOGLE SHEETS ---
     function saveScoreToLeaderboard(finalScore) {
         const name = document.getElementById('nama').value;
         const className = document.getElementById('kelas').value;
-        // Di aplikasi nyata, ini akan mengirim data ke server/Google Sheet
-        leaderboardData.push({ name: name, class: className, score: finalScore });
-        console.log("Skor berhasil disimpan ke database simulasi!");
-        updateLeaderboardDisplay();
+        
+        const data = { name, className, score: finalScore };
+
+        // Tampilkan loading spinner
+        Swal.fire({
+            title: 'Menyimpan Skor...',
+            text: 'Mohon tunggu sebentar.',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading()
+            }
+        });
+
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(result => {
+            console.log(result);
+            Swal.close();
+            Swal.fire('Berhasil!', 'Skor Anda telah disimpan.', 'success');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.close();
+            Swal.fire('Gagal', 'Terjadi kesalahan saat menyimpan skor.', 'error');
+        });
     }
 
-    // --- LOGIKA PAPAN PERINGKAT ---
-    function updateLeaderboardDisplay() {
-        leaderboardData.sort((a, b) => b.score - a.score);
+    function fetchLeaderboardData() {
+        // Tampilkan pesan loading di tabel
+        const tableBody = document.querySelector("#leaderboard-table tbody");
+        tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Memuat data peringkat...</td></tr>';
 
+        fetch(SCRIPT_URL)
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                updateLeaderboardDisplay(result.data);
+            } else {
+                throw new Error(result.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching leaderboard:', error);
+            tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Gagal memuat data.</td></tr>';
+        });
+    }
+
+    function updateLeaderboardDisplay(leaderboardData) {
         const top3 = leaderboardData.slice(0, 3);
         const setPodium = (rank, data) => {
-            document.getElementById(`rank-${rank}-name`).innerText = data?.name || '-';
-            document.getElementById(`rank-${rank}-score`).innerText = data?.score !== undefined ? data.score : '-';
+            document.getElementById(`rank-${rank}-name`).innerText = data?.nama || '-';
+            document.getElementById(`rank-${rank}-score`).innerText = data?.skor !== undefined ? data.skor : '-';
         };
         setPodium(1, top3[0]);
         setPodium(2, top3[1]);
@@ -224,13 +260,18 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const tableBody = document.querySelector("#leaderboard-table tbody");
         tableBody.innerHTML = '';
+        if (leaderboardData.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Belum ada data.</td></tr>';
+            return;
+        }
+
         leaderboardData.forEach((player, index) => {
             const row = `
                 <tr>
                     <td>${index + 1}</td>
-                    <td>${player.name}</td>
-                    <td>${player.class}</td>
-                    <td>${player.score}</td>
+                    <td>${player.nama}</td>
+                    <td>${player.kelas}</td>
+                    <td>${player.skor}</td>
                 </tr>
             `;
             tableBody.innerHTML += row;
@@ -239,5 +280,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- INISIALISASI APLIKASI ---
     showPage('beranda');
-    updateLeaderboardDisplay();
+    fetchLeaderboardData(); // Ambil data saat pertama kali halaman dimuat
 });
