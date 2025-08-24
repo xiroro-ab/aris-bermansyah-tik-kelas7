@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- KONFIGURASI API GOOGLE SHEETS ---
     // !!! PENTING: Ganti dengan URL Web App yang Anda dapatkan dari Google Apps Script !!!
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx7aklsrstQESiP13lmDKM2BRRKR62MIZkkgclOwomLpe_KcG1OffV2B9GM0ifvO0fBMw/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzWyhCuFQ67Vy-HGbGzxg2_7T0x7lHzKNz3BajxFo59D5LwyvGrb8iKRIpxZIEC33ppPw/exec";
 
     // --- FUNGSI NAVIGASI & TAMPILAN HALAMAN ---
     window.showPage = (pageId) => {
