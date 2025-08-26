@@ -1,4 +1,4 @@
-aris-bermansyah-komponen-sistem-komputer
+aris-bermansyah-Tik
 
 ini adalah website yang saya kembangkan berdasarkan perintah ai, 
 website ini digunakan untuk media pembelajaran yang interaktif, 
